@@ -11,7 +11,7 @@ const initialState = {
 const Register = () => {
   const [data, setData] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
-
+  
   const [profileImage, setProfileImage] = useState(null);
 
   const handleInputChange = (e) => {
