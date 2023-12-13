@@ -6,7 +6,7 @@ import { DB_URL } from "./config/db.config";
 import { API_URL, PORT } from "./config/app.config";
 import router from "./routes";
 import authRoutes from "./routes/auth.routes";
-import { errors } from 'celebrate';
+import { errors } from "celebrate";
 import bodyParser from "body-parser";
 mongoose
   .connect(DB_URL)
@@ -22,6 +22,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(API_URL, router);
 
 // app.use(errors())
+app.use((error, req, res, next) => {
+  if (error.details) {
+    error = error.details.get("body");
+    const {
+      details: [errorDetails],
+    } = error;
+    return res.status(422).json(errorDetails);
+  }
+});
 
 app.listen(PORT, () =>
   console.log(`[Server] Listening for requests at http://localhost:${PORT}`)

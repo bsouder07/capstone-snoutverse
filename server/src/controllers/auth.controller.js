@@ -14,6 +14,15 @@ import { hashPassword, comparePassword, signJwt } from "../utils/auth.utils";
 export async function handleSignUp(req, res) {
   const { email, password, confirmPassword } = req.body;
   console.log("Received request body:", req.body);
+  if (!confirmPassword) {
+    return res.status(422).json({ confirmPassword: "Must confirm password." });
+  }
+
+  // Check that password and confirmPassword actually match:
+  if (password !== confirmPassword) {
+    return res.status(422).json({ password: "Passwords must match." });
+  }
+
   let user = await getUserByEmail(email);
   if (user) {
     return res.status(422).json({ email: "Email taken." });
@@ -22,8 +31,12 @@ export async function handleSignUp(req, res) {
   console.log("Password value:", password);
   const passwordHash = hashPassword(password);
   console.log("hashPassword function:", hashPassword);
-  console.log(email)
-  user = await createUser(email, passwordHash );
+  console.log(email);
+  try {
+    user = await createUser(email, passwordHash);
+  } catch (error) {
+    return res.status(422).json(error.errors);
+  }
   console.log(user);
   user = sanitizeUser(user);
 
