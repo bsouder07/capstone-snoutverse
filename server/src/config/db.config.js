@@ -1,2 +1,2 @@
 export const DB_URL =
-  process.env.DB_URL || "insert mongodb atlas connection string here";
+  process.env.DB_URL || "mongodb+srv://bsoudee007:Redners07!@cluster0.azbrnse.mongodb.net/snoutverse?retryWrites=true"
