@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Form, InputGroup, Col, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   userName: "",
@@ -11,6 +12,7 @@ const initialState = {
 const Register = () => {
   const [data, setData] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
+  const navigate = useNavigate()
   
   const [profileImage, setProfileImage] = useState(null);
 
