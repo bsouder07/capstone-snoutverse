@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Form, InputGroup, Col, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   userName: "",
@@ -9,7 +10,7 @@ const initialState = {
 const Login = () => {
   const [data, setData] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
-
+  const navigate = useNavigate()
   const handleInputChange = (e) => {
     setData({
       ...data,
@@ -68,8 +69,18 @@ const Login = () => {
               </Col>
             </Row>
             <Row className="mr-0">
+            <Col>
+                New user? 
+                <Button
+                  as="a"
+                  variant="link"
+                  onClick={() => navigate("/register")}
+                >
+                  Sign up
+                </Button>
+              </Col>
               <Button type="submit" disabled={data.isSubmitting}>
-                Sign up
+                Sign In
               </Button>
             </Row>
           </Form>
