@@ -1,10 +1,10 @@
 import api from "../utils/api.utils";
 
-export const signIn = (username,password) =>
-api.post("/auth/signin",{username,password});
+export const signIn = (email,password) =>
+api.post("/auth/signin",{email,password});
 
-export const signUp = (username,password,confirmPassword) =>
-api.post("/auth/signup",{username,password,confirmPassword});
+export const signUp = (email,password,confirmPassword) =>
+api.post("/auth/signup",{email,password,confirmPassword});
 
 
 
