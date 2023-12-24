@@ -51,7 +51,7 @@ const Register = () => {
             <h3 className="mb-3">Sign Up!</h3>
             <Row className="mr-0">
               <Col md={6}>
-                <Form.Group className="mb-3">
+                {/* <Form.Group className="mb-3">
                   <Form.Label>User Name</Form.Label>
                   <Form.Control
                     type="text"
@@ -62,8 +62,8 @@ const Register = () => {
                   <Form.Control.Feedback type="invalid">
                     {errors.userName}
                   </Form.Control.Feedback>
-                </Form.Group>
-                {/* <Form.Group className="mb-3">
+                </Form.Group> */}
+                <Form.Group className="mb-3">
                   <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="email"
@@ -74,7 +74,7 @@ const Register = () => {
                   <Form.Control.Feedback type="invalid">
                     {errors.email}
                   </Form.Control.Feedback>
-                </Form.Group> */}
+                </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
