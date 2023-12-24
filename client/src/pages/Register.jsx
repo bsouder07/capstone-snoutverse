@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Container, Row, Form, InputGroup, Col, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../providers/AuthProvider/useAuth";
+
 
 const initialState = {
   userName: "",
@@ -12,9 +14,17 @@ const initialState = {
 const Register = () => {
   const [data, setData] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
+  // const [profileImage, setProfileImage] = useState(null);
+  const {handleSignUp} = useAuth();
   const navigate = useNavigate()
   
-  const [profileImage, setProfileImage] = useState(null);
+  const handleSubmit = async (e) =>{
+    e.preventDefault();
+    
+    const {username,password,confirmPassword} = data;
+
+    await handleSignUp(username,password,confirmPassword);
+  }
 
   const handleInputChange = (e) => {
     setData({
@@ -23,13 +33,10 @@ const Register = () => {
     });
   };
 
-  const handleProfileImageChange = (e) => {
-    setProfileImage(e.target.files[0]);
-  };
+  // const handleProfileImageChange = (e) => {
+  //   setProfileImage(e.target.files[0]);
+  // };
 
-  const handleSignup = (e) => {
-    e.preventDefault();
-  };
 
   return (
     <div>
@@ -39,7 +46,7 @@ const Register = () => {
             noValidate
             validated
             style={{ width: "650px" }}
-            onSubmit={handleSignup}
+            onSubmit={handleSubmit}
           >
             <h3 className="mb-3">Sign Up!</h3>
             <Row className="mr-0">
@@ -56,7 +63,7 @@ const Register = () => {
                     {errors.userName}
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group className="mb-3">
+                {/* <Form.Group className="mb-3">
                   <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="email"
@@ -67,7 +74,7 @@ const Register = () => {
                   <Form.Control.Feedback type="invalid">
                     {errors.email}
                   </Form.Control.Feedback>
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group className="mb-3">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
@@ -101,7 +108,7 @@ const Register = () => {
                 )}
               </Col>
 
-              <Col md={6}>
+              {/* <Col md={6}>
                 <Form.Group controlId="profile-image-upload">
                   <Form.Label>Profile Picture</Form.Label>
                   <Form.Control
@@ -110,7 +117,7 @@ const Register = () => {
                     accept="image/*"
                   />
                 </Form.Group>
-              </Col>
+              </Col> */}
             </Row>
             <Row className="mr-0">
               <Col>
