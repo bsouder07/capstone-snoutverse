@@ -13,13 +13,13 @@ export function requireAuth(requiredRole = 3) {
 
     verifyJwt(accessToken)
       .then((user) => {
-        // console.log(user);
-        // console.log(requiredRole);
-        // if (user.role > requiredRole) {
-        //   return res
-        //     .status(403)
-        //     .json({ error: "Unauthorized, insufficient role." });
-        // }
+        console.log(user);
+        console.log(requiredRole);
+        if (user.role > requiredRole) {
+          return res
+            .status(403)
+            .json({ error: "Unauthorized, insufficient role." });
+        }
 
         req.user = user;
         next();
@@ -29,3 +29,7 @@ export function requireAuth(requiredRole = 3) {
       });
   };
 }
+
+
+
+

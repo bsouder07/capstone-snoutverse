@@ -7,17 +7,16 @@ import {signIn, signUp } from "../../services/auth.services";
 const useAuth = () =>{
 const {state,dispatch} = useContext(authContext);
 
-const handleSignUp = async (username,password,confirmPassword) =>{
+const handleSignUp = async (email,password,confirmPassword) =>{
 
- const response = await signUp(username,password,confirmPassword)
- console.log(response)
-
- await signUp (username,password)
+ const response = await signUp(email,password,confirmPassword)
+ console.log(response);
+ await handleSignIn(email,password);
  
 };
 
-const handleSignIn = async (username,password) =>{
-    return signIn(username,password).then((response) =>
+const handleSignIn = async (email,password) =>{
+    return signIn(email,password).then((response) =>
     console.log(response.data)
     
     );
@@ -32,6 +31,7 @@ return{
 
     
 }
-};
+
+}
 
 export default useAuth;
