@@ -1,37 +1,30 @@
-import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import { DB_URL } from "./config/db.config";
-import { API_URL, PORT } from "./config/app.config";
+import { yellow, green, blue, red } from "chalk";
+import keys from "./config/keys";
 import router from "./routes";
-import authRoutes from "./routes/auth.routes";
-import { errors } from "celebrate";
-import bodyParser from "body-parser";
-mongoose
-  .connect(DB_URL)
-  .then(() => console.log("[Database] Connection established."))
-  .catch((err) => console.log("[Database] Connection failed: ", err));
 
 const app = express();
+
+mongoose
+  .connect(keys.db_uri)
+  .then(() => console.log(`${green("[Database]")} Connection established`))
+  .catch((error) =>
+    console.log(`${red("[Database]")} Connection failed:`, error)
+  );
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(API_URL, router);
+app.use(keys.api_url, router);
 
-// app.use(errors())
-app.use((error, req, res, next) => {
-  if (error.details) {
-    error = error.details.get("body");
-    const {
-      details: [errorDetails],
-    } = error;
-    return res.status(422).json(errorDetails);
-  }
-});
-
-app.listen(PORT, () =>
-  console.log(`[Server] Listening for requests at http://localhost:${PORT}`)
+app.listen(keys.port, () =>
+  console.log(
+    `${green("[Server]")} Server established! Send requests to ${yellow(
+      "http://localhost:"
+    )}${blue(keys.port)}`
+  )
 );
+

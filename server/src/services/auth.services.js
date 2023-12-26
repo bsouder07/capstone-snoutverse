@@ -13,12 +13,13 @@ export async function getUserByEmail(email) {
 }
 
 
-export async function createUser(email, passwordHash) {
-  return await User.create({ email, passwordHash });
+export async function createUser(email, passwordHash, role = 3) {
+  return await User.create({ email, passwordHash,role });
 }
 
 export function sanitizeUser(user) {
   user = user.toJSON();
   delete user.passwordHash;
+  delete user.role
   return user;
 }

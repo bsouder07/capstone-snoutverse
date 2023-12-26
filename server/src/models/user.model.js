@@ -1,16 +1,28 @@
 import { Schema, model } from "mongoose";
 
 const userSchema = new Schema({
+  // email: {
+  //   type: String,
+  //   required: true,
+  //   unique: true,
+  //   minlength: 4,
+  //   maxlength: 24,
+  // },
   email: {
     type: String,
     required: true,
-    unique: true,
-    minlength: 4,
-    maxlength: 24,
+    pattern: "/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/",
   },
   passwordHash: {
     type: String,
     required: true,
+  },
+
+  role: {
+    type: Number,
+    min: 1,
+    max: 3,
+    default: 3,
   },
 });
 
