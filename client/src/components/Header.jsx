@@ -1,8 +1,10 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useAuth } from "../hooks"
 
 function Header() {
+  const { isAuthenticated, handleSignOut } = useAuth();
   return (
     <div>
       <Navbar bg="dark" variant="dark" expand="lg">
@@ -13,12 +15,18 @@ function Header() {
           <Navbar.Toggle aria-controls="top-nav" />
           <Navbar.Collapse id="top-nav">
             <Nav className="me-auto">
-              <Nav.Link as={Link} to="/register">
-                Sign Up
-              </Nav.Link>
-              <Nav.Link as={Link} to="/login">
-                Sign In
-              </Nav.Link>
+              {isAuthenticated ? (
+                <Nav.Link onClick={handleSignOut}>Sign Out</Nav.Link>
+              ) : (
+                <>
+                  <Nav.Link as={Link} to="/register">
+                    Sign Up
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/login">
+                    Sign In
+                  </Nav.Link>
+                </>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

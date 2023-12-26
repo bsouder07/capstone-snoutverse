@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Form, InputGroup, Col, Button } from "react-bootstrap";
 import { Link, useNavigate} from "react-router-dom";
-import useAuth from "../providers/AuthProvider/useAuth";
+import { useAuth } from "../hooks";
 
 const initialState = {
   email: "",

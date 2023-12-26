@@ -1,15 +1,29 @@
 import React, { useState } from "react";
 import { Container, Row, Form, InputGroup, Col, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks";
 const initialState = {
-  userName: "",
+  email: "",
   password: "",
 };
 
 const Login = () => {
   const [data, setData] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
+  const {handleSignIn} = useAuth();
+  const navigate = useNavigate();
+
+
+  const handleSubmit = async (e) =>{
+    e.preventDefault();
+
+    const {email,password} = data;
+
+    await handleSignIn(email,password);
+
+      navigate("/dashboard")
+
+  };
  
   const handleInputChange = (e) => {
     setData({
@@ -18,14 +32,10 @@ const Login = () => {
     });
   };
 
-  const handleSignIn = (e) => {
-    e.preventDefault();
-  };
-
   return (
     <Container>
       <h1>  Sign in now!</h1>
-      <Form onSubmit={() => {}}>
+      <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>Email</Form.Label>
           <Form.Control

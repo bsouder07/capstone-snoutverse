@@ -1,8 +1,9 @@
 import { useContext } from "react";
-import authContext from "./AuthContext";
-import { SIGNIN, SIGNOUT } from ".";
-import { signIn, signUp } from "../../services/auth.services";
-import { setAccessToken } from "../../utils/api.utils";
+import authContext from "../providers/AuthProvider/authContext"
+
+import { SIGNIN, SIGNOUT } from "../providers/AuthProvider/useAuthProvider";
+import { signIn, signUp } from "../services/auth.services";
+import { setAccessToken } from "../utils/api.utils";
 
 const useAuth = () => {
   const { state, dispatch } = useContext(authContext);
@@ -10,7 +11,7 @@ const useAuth = () => {
   const handleSignUp = async (email,password,confirmPassword) =>{
    
  const response = await signUp(email,password,confirmPassword)
-console.log(response);
+  console.log(response);
    await handleSignIn(email,password);
  
   };
@@ -26,7 +27,7 @@ console.log(response);
 
   const handleSignOut = ()=>{
     dispatch({type: SIGNOUT});
-    localStorage.clearItem("test-auth");
+    localStorage.removeItem("test-auth");
   };
 
   return {
