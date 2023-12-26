@@ -1,5 +1,6 @@
 import {useReducer } from "react"
 import authContext from "./AuthContext"
+import useAuthProvider from "./useAuthProvider";
 
 const initialState ={
     user:null,
@@ -33,7 +34,7 @@ case "SIGNOUT":
 
 const AuthProvider = ({children}) => {
 
-const [state,dispatch] = useReducer(reducer,initialState);
+    const {state,dispatch}= useAuthProvider()
     return(  <authContext.Provider value={{state, dispatch}}>
         {children}
     </authContext.Provider>

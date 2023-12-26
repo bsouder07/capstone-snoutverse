@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Form, InputGroup, Col, Button } from "react-bootstrap";
-import { Link} from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import useAuth from "../providers/AuthProvider/useAuth";
 
 const initialState = {
@@ -14,7 +14,7 @@ const Register = () => {
   const [errors, setErrors] = useState(initialState);
   // const [profileImage, setProfileImage] = useState(null);
   const { handleSignUp } = useAuth();
- 
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +22,7 @@ const Register = () => {
     const { email, password, confirmPassword } = data;
 
     await handleSignUp(email, password, confirmPassword);
+    navigate("/dashboard");
   };
 
   const handleInputChange = (e) => {
