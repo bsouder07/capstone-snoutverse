@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import { useEffect,useReducer} from 'react'
 import { setAccessToken } from '../../utils/api.utils';
-import { useReducer } from 'react';
+
 
 const initialState ={
     user:null,
@@ -48,6 +48,6 @@ const useAuthProvider = () => {
 
  return {state, dispatch}
   
-}
+};
 
-export default useAuthProvider
+export default useAuthProvider;
