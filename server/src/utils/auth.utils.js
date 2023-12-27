@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import jwt_stuff from "../config/app.config";
+import { getUserById } from "../services/auth.services";
+
 
 export function hashPassword(password) {
   return bcrypt.hashSync(password, 12);
@@ -27,7 +29,7 @@ export function signJwt(user) {
 
 export function verifyJwt(token) {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, jwt_secret, (err, payload) => {
+    jwt.verify(token, jwt_stuff.jwt_secret, (err, payload) => {
       if (err) {
         return reject(err);
       }

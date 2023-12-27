@@ -11,6 +11,7 @@ import { User } from "../models";
 
 import { hashPassword, comparePassword, signJwt } from "../utils/auth.utils";
 
+
 export async function handleSignUp(req, res) {
   const { email, password, confirmPassword } = req.body;
   console.log("Received request body:", req.body);

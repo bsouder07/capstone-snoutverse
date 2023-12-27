@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { healthCheck } from "../controllers/api.controller";
 import authRoutes from "./auth.routes";
+import postRoutes from "./post.routes";
 
 const router = Router();
 
@@ -10,6 +11,8 @@ router.post("/", (req, res, next) => {
   return res.status(400);
 });
 router.use("/auth", authRoutes);
+
+router.use("/posts", postRoutes);
 
 export default router;
 
