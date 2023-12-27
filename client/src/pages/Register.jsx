@@ -12,7 +12,7 @@ const initialState = {
 const Register = () => {
   const [data, setData] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
-  // const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
   const { handleSignUp } = useAuth();
   const navigate = useNavigate();
 
@@ -32,9 +32,9 @@ const Register = () => {
     });
   };
 
-  // const handleProfileImageChange = (e) => {
-  //   setProfileImage(e.target.files[0]);
-  // };
+  const handleProfileImageChange = (e) => {
+    setProfileImage(e.target.files[0]);
+  };
   return (
     <Container>
       <h1>Create an Account</h1>
@@ -81,6 +81,15 @@ const Register = () => {
             {errors.confirmPassword}
           </Form.Control.Feedback>
         </Form.Group>
+        <Form.Group controlId="profile-image-upload">
+                  <Form.Label>Profile Picture</Form.Label>
+                   <Form.Control
+                    type="file"
+                    onChange={handleProfileImageChange}
+                    accept="image/*"
+                  />
+                </Form.Group>
+        
         <Form.Group className="mb-3">
           <Button type="submit">Create Account </Button>
         </Form.Group>
