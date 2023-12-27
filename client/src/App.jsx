@@ -1,19 +1,17 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { Header } from "./components";
 import { Route, Router, Routes } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import DashboardPage from "./pages/DashboardPage";
+import UserDashboardPage from "./pages/UserDashboardPage";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { useAuth } from "./hooks";
+import EmployeeDashboardPage from "./pages/EmployeeDashboardPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
 
 function App() {
 
 
-  const {isAuthenticated} = useAuth();
+
 
   return (
     <>
@@ -22,8 +20,14 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route element={<ProtectedRoute/>}>
-        <Route path="/dashboard" element={<DashboardPage/>} />
+        <Route path="/dashboard" element={<UserDashboardPage/>} />
         </Route>
+        <Route element ={<ProtectedRoute requiredRole={2}/>}>
+        <Route path="/dashboard/employee" element={<EmployeeDashboardPage/>}/>
+      </Route>
+      <Route element ={<ProtectedRoute requiredRole={1}/>}>
+        <Route path="/dashboard/admin" element={<AdminDashboardPage/>}/>
+      </Route>
       </Routes>
 
       
