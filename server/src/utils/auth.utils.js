@@ -2,13 +2,14 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import jwt_stuff from "../config/app.config";
 import { getUserById } from "../services/auth.services";
+import keys from "../config/keys";
+import { User } from "../models";
+
 
 
 export function hashPassword(password) {
   return bcrypt.hashSync(password, 12);
 }
-
-
 
 export function comparePassword(raw, hashed) {
   return bcrypt.compareSync(raw, hashed);
@@ -20,16 +21,17 @@ export function signJwt(user) {
     email: user.email,
     role: user.role,
   };
-  //This should sign and encrypt a token
-  console.log(jwt_stuff.jwt_secret)
-  return jwt.sign(tokenUser, jwt_stuff.jwt_secret, {
-    expiresIn: jwt_stuff.jwt_ttl,
+
+  return jwt.sign(tokenUser, keys.jwt_secret, {
+    expiresIn: keys.jwt_ttl,
   });
 }
 
 export function verifyJwt(token) {
   return new Promise((resolve, reject) => {
+
     jwt.verify(token, jwt_stuff.jwt_secret, (err, payload) => {
+
       if (err) {
         return reject(err);
       }
@@ -42,3 +44,4 @@ export function verifyJwt(token) {
     });
   });
 }
+

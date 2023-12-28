@@ -7,11 +7,11 @@ router.get("/user", requireAuth(), (req, res) => {
   res.sendStatus(200);
 });
 
-router.get("/employee", requireAuth(), (req, res) => {
+router.get("/employee", requireAuth(2), (req, res) => {
   res.sendStatus(200);
 });
 
-router.get("/admin", requireAuth(), (req, res) => {
+router.get("/admin", requireAuth(1), (req, res) => {
   res.sendStatus(200);
 });
 
