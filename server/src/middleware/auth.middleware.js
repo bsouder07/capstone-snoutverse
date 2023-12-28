@@ -13,13 +13,13 @@ export function requireAuth(requiredRole = 3) {
 
     verifyJwt(accessToken)
       .then((user) => {
-        // console.log(user);
-        // console.log(requiredRole);
-        // if (user.role > requiredRole) {
-        //   return res
-        //     .status(403)
-        //     .json({ error: "Unauthorized, insufficient role." });
-        // }
+        console.log(user);
+        console.log(requiredRole);
+        if (user.role > requiredRole) {
+          return res
+            .status(403)
+            .json({ error: "Unauthorized, insufficient role." });
+        }
 
         req.user = user;
         console.log(req)
@@ -32,5 +32,10 @@ export function requireAuth(requiredRole = 3) {
   };
 }
 
+
 //user token for testing123@gmail.com
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTg4Nzk4NGQzYTlhMTBjNDk0MzhjOTIiLCJlbWFpbCI6InRlc3RpbmcxMjNAZ21haWwuY29tIiwiaWF0IjoxNzAzNDQzMjgwLCJleHAiOjE3MDQwNDgwODB9.-7WLayrgDoM2Y3ujn7wR-YUtPgYKeAzF4xiWsMu4WAA
+
+
+
+

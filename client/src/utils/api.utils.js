@@ -1,6 +1,20 @@
 import axios from "axios";
 
-const api = axios.create()
 
-//I need help constructing the API with axios to grab the posts on the backend
-// to be rendered on the search page. 
+const api = axios.create({
+  baseURL: "http://localhost:3001/api",
+});
+
+
+export const setAccessToken = (token)=>{
+  if(!token){
+ delete api.defaults.headers.common["Authorization"];
+ return;
+  }
+
+api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+};
+
+export default api;
+
