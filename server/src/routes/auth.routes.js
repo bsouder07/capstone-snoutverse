@@ -4,6 +4,7 @@ import { validateSignUp, validateSignIn } from "../middleware/validation.middlew
 import { handleFileUpload } from "../controllers/fileUpload.controller";
 
 
+
 const router = Router();
 
 router.post("/signup",   handleSignUp);

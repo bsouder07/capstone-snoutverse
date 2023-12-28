@@ -11,6 +11,7 @@ import {
 } from "../services/auth.services";
 import { comparePassword, hashPassword, signJwt } from "../utils/auth.utils";
 
+
 export async function handleSignUp(req, res) {
   const { email, password } = req.body;
 
