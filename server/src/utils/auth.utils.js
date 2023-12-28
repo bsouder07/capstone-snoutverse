@@ -26,7 +26,9 @@ export function signJwt(user) {
 
 export function verifyJwt(token) {
   return new Promise((resolve, reject) => {
+
     jwt.verify(token, keys.jwt_secret, (err, payload) => {
+
       if (err) {
         return reject(err);
       }
