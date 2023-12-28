@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import keys from "../config/keys";
 import { User } from "../models";
 import { getUserById } from "../services/auth.services";
+import { ObjectId } from "mongodb";
 
 export function hashPassword(password) {
   return bcrypt.hashSync(password, 12);
@@ -40,3 +41,10 @@ export function verifyJwt(token) {
   });
 }
 
+export function isValidObjectId(id) {
+  if (ObjectId.isValid(id)) {
+    if (String(new ObjectId(id)) === id) return true;
+    return false;
+  }
+  return false;
+}
