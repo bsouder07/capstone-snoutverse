@@ -19,7 +19,7 @@ function App() {
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route element={<ProtectedRoute/>}>
+        <Route element={<ProtectedRoute requiredRole={0}/>}>
         <Route path="/dashboard" element={<UserDashboardPage/>} />
         </Route>
         <Route element ={<ProtectedRoute requiredRole={2}/>}>

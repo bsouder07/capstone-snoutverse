@@ -10,7 +10,9 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-
+profileImage:{
+  type:String,
+},
   role: {
     type: Number,
     min: 1,
