@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { getUserById } from "../services/auth.services";
 import keys from "../config/keys";
 import { User } from "../models";
 import { getUserById } from "../services/auth.services";
