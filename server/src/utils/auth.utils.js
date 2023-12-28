@@ -4,8 +4,6 @@ import { getUserById } from "../services/auth.services";
 import keys from "../config/keys";
 import { User } from "../models";
 
-
-
 export function hashPassword(password) {
   return bcrypt.hashSync(password, 12);
 }
@@ -43,4 +41,3 @@ export function verifyJwt(token) {
     });
   });
 }
-
