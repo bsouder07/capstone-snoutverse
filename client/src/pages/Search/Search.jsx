@@ -1,10 +1,21 @@
 import React, { useEffect } from "react";
 
-import { Container, Form, Button } from "react-bootstrap";
+import {
+  Container,
+  Form,
+  Button,
+  Card,
+  Figure,
+  ListGroup,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import { useState } from "react";
 import axios from "axios";
 import "./Search.css";
 import { User } from "../../../../server/src/models";
+import { Link } from "react-router-dom";
+import { timeSince } from "../../utils/timeSince";
 
 function Search() {
   const [data, setData] = useState("");
@@ -50,8 +61,8 @@ function Search() {
   return (
     <>
       <Container className="pt-3 pb-3 clearfix search__container">
-        <h4 className="search__title">Search for a Group or a Post</h4>
-        <Form>
+        <h4 className="search__title">Search for a Post</h4>
+        <Form className="form_class">
           <Form.Control
             className="search__input"
             maxLength="45"
@@ -60,7 +71,6 @@ function Search() {
             size="lg"
             onChange={handleInputChange}
           ></Form.Control>
-          <Button>Search</Button>
         </Form>
 
         <div className="search-results">
@@ -74,11 +84,24 @@ function Search() {
                   )
                   .map((post) => {
                     return (
-                      <div key={post._id}>
-                        <div>{post.text}</div>
-                        <div>{post.author.email}</div>
-                        <div>{post.created}</div>
-                      </div>
+                      <Card className="card_class" key={post._id}>
+                        <Card.Body>
+                          <Figure className="d-flex align-items-center">
+                            <Figure.Image
+                              width={70}
+                              height={70}
+                              className="rounded-circle"
+                              src={post.author.profile_image}
+                              alt={post.author.email}
+                            />
+                          </Figure>
+                          <Card.Text className="mt-3">{post.text}</Card.Text>
+                          <Card.Text>
+                            {new Date(post.created).toLocaleDateString()} -{" "}
+                            {timeSince(post.created)} ago{" "}
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
                     );
                   })}
             </div>
