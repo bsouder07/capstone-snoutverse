@@ -92,9 +92,10 @@ function Search() {
                               height={70}
                               className="rounded-circle"
                               src={post.author.profile_image}
-                              alt={post.author.email}
                             />
+                            <figcaption>{post.author.email}</figcaption>
                           </Figure>
+
                           <Card.Text className="mt-3">{post.text}</Card.Text>
                           <Card.Text>
                             {new Date(post.created).toLocaleDateString()} -{" "}
