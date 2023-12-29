@@ -1,5 +1,5 @@
 import "./App.css";
-import { Header } from "./components";
+import { BottomNav, Header } from "./components";
 import { Route, Router, Routes } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
