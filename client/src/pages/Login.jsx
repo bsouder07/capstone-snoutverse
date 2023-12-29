@@ -36,7 +36,7 @@ const Login = () => {
     <Container>
       <h1>  Sign in now!</h1>
       <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3">
+        <Form.Group className="mt-5">
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
@@ -49,7 +49,7 @@ const Login = () => {
             {errors.email}
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className="mb-3">
+        <Form.Group className="mt-4">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -62,11 +62,11 @@ const Login = () => {
             {errors.password}
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className="mb-3">
+        <Form.Group className="mt-4">
           <Button type="submit">Sign In</Button>
         </Form.Group>
         <Form.Text>
-         New account? <Link to ="/register">Sign Up</Link>
+         New account? <Link  to ="/register">Sign Up</Link>
         </Form.Text>
       </Form>
     </Container>

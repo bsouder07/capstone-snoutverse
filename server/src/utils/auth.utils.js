@@ -1,8 +1,9 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { getUserById } from "../services/auth.services";
 import keys from "../config/keys";
 import { User } from "../models";
-import { getUserById } from "../services/auth.services";
+import { ObjectId } from "mongodb";
 
 export function hashPassword(password) {
   return bcrypt.hashSync(password, 12);
@@ -26,7 +27,9 @@ export function signJwt(user) {
 
 export function verifyJwt(token) {
   return new Promise((resolve, reject) => {
+
     jwt.verify(token, keys.jwt_secret, (err, payload) => {
+
       if (err) {
         return reject(err);
       }
@@ -40,3 +43,10 @@ export function verifyJwt(token) {
   });
 }
 
+export function isValidObjectId(id) {
+  if (ObjectId.isValid(id)) {
+    if (String(new ObjectId(id)) === id) return true;
+    return false;
+  }
+  return false;
+}

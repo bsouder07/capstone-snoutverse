@@ -4,8 +4,11 @@ import mongoose from "mongoose";
 import { yellow, green, blue, red } from "chalk";
 import keys from "./config/keys";
 import router from "./routes";
+import fileupload from "express-fileupload"
+
 
 const app = express();
+const path = require('path');
 
 mongoose
   .connect(keys.db_uri)
@@ -18,7 +21,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/",fileupload());
+
 app.use(keys.api_url, router);
+
+
+app.use(express.static(path.join(__dirname, "..", "public")));
+
 
 app.listen(keys.port, () =>
   console.log(
