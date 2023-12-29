@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-
 import {
   Container,
   Form,
@@ -16,6 +15,7 @@ import "./Search.css";
 import { User } from "../../../../server/src/models";
 import { Link } from "react-router-dom";
 import { timeSince } from "../../utils/timeSince";
+import Cards from "../../components/Cards/Cards";
 
 function Search() {
   const [data, setData] = useState("");
@@ -84,25 +84,7 @@ function Search() {
                   )
                   .map((post) => {
                     return (
-                      <Card className="card_class" key={post._id}>
-                        <Card.Body>
-                          <Figure className="d-flex align-items-center">
-                            <Figure.Image
-                              width={70}
-                              height={70}
-                              className="rounded-circle"
-                              src={post.author.profile_image}
-                            />
-                            <figcaption>{post.author.email}</figcaption>
-                          </Figure>
-
-                          <Card.Text className="mt-3">{post.text}</Card.Text>
-                          <Card.Text>
-                            {new Date(post.created).toLocaleDateString()} -{" "}
-                            {timeSince(post.created)} ago{" "}
-                          </Card.Text>
-                        </Card.Body>
-                      </Card>
+                      <Cards key={post._id} post={post} />
                     );
                   })}
             </div>
@@ -115,13 +97,10 @@ function Search() {
 
 export default Search;
 
-/*I need to add this:
-   <Container className="pt-3 pb-3 clearfix">
-        <SearchBar searchPosts={searchPosts} setSearchPosts={setSearchPosts} />
-      </Container>  
 
 
-      For Groups if need be
+
+    /*  For Groups if need be
 
  <h3 className="groups-results">
               {" "}
