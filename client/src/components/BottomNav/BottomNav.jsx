@@ -6,10 +6,15 @@ import {
   FaMagnifyingGlass,
   FaUserGroup,
 } from "react-icons/fa6";
+import useAuthProvider from "../../providers/AuthProvider/useAuthProvider";
+import "./BottomNav.css"
 
 function BottomNav() {
+
+  const { state } = useAuthProvider();
+
   return (
-    <Navbar fixed="bottom" className="d-flex justify-content-evenly border-top">
+    <Navbar fixed="bottom" id="bottomNav" className="d-flex justify-content-evenly border-top">
       <Nav.Link as={Link} to="/dashboard">
         <FaHouse size={30} />
       </Nav.Link>
@@ -19,7 +24,7 @@ function BottomNav() {
       <Nav.Link as={Link} to="/groups">
         <FaUserGroup size={30} />
       </Nav.Link>
-      <Nav.Link as={Link} to={`/profile/${the_users_id}`}>
+      <Nav.Link as={Link} to={`/profile/${state?.user?._id}`}>
         <FaCircleUser size={30} />
       </Nav.Link>
     </Navbar>

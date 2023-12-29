@@ -1,5 +1,5 @@
 import "./App.css";
-import { Header } from "./components";
+import { BottomNav, Header } from "./components";
 import { Route, Router, Routes } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -14,6 +14,7 @@ function App() {
   return (
     <>
       <Header />
+      <BottomNav />
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
