@@ -46,7 +46,7 @@ const Register = () => {
     <Container>
       <h1>Create an Account</h1>
       <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3">
+        <Form.Group className="mt-5">
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
@@ -60,7 +60,7 @@ const Register = () => {
             {errors.email}
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className="mb-3">
+        <Form.Group className="mt-4">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -74,7 +74,7 @@ const Register = () => {
             {errors.password}
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className="mb-3">
+        <Form.Group className="mt-4">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
@@ -88,15 +88,28 @@ const Register = () => {
             {errors.confirmPassword}
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group controlId="profile-image-upload">
-          <Form.Label>Profile Picture</Form.Label>
+        <Form.Group  controlId="profile-image-upload" style={{
+          display: "flex",
+          gap: "1rem",
+          marginTop: "1rem",
+          fontWeight: "bold"
+
+        }} >
+        
+          <Form.Label>Profile Picture
+          
+         
+      
+          </Form.Label>
+
           <UploadFile onFileChange={(file) => setProfileImage(file)} />
+         
         </Form.Group>
-        <Form.Group className="mb-3">
+        <Form.Group className="mt-2">
           <Button type="submit">Create Account </Button>
         </Form.Group>
-        <Form.Text>
-          Already have an account? <Link to = "/login">Sign In</Link>
+        <Form.Text >
+          Already have an account? <Link className="mt-6" to = "/login">Sign In</Link>
         </Form.Text>
       </Form>
     </Container>

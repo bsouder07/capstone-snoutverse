@@ -4,6 +4,7 @@ import { validateSignUp, validateSignIn } from "../middleware/validation.middlew
 
 
 
+
 const router = Router();
 
 router.post("/signup",    handleSignUp);
