@@ -9,7 +9,9 @@ const initialState = {
   email: "",
   password: "",
   confirmPassword: "",
+  profileImage:""
   };
+
 
 const Register = () => {
   const [data, setData] = useState(initialState);
@@ -21,9 +23,10 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { email, password, confirmPassword } = data;
+  
+    const { email, password, confirmPassword,profileImage} = data;
 
-    await handleSignUp(email, password, confirmPassword);
+    await handleSignUp(email, password, confirmPassword,profileImage);
     navigate("/dashboard");
 
     
@@ -38,6 +41,7 @@ const Register = () => {
  const handleProfileImageChange = (e) => {
     setProfileImage(e.target.files[0]);
     };
+
   return (
     <Container>
       <h1>Create an Account</h1>

@@ -12,7 +12,7 @@ import {
 import { comparePassword, hashPassword, signJwt } from "../utils/auth.utils";
 
 export async function handleSignUp(req, res) {
-  const { email, password } = req.body;
+  const { email, password,} = req.body;
 
   let user = await getUserByEmail(email);
   if (user) {
@@ -26,6 +26,35 @@ export async function handleSignUp(req, res) {
 
   res.status(201).json(user);
 }
+
+
+// export async function handleSignUp(req, res) {
+//   const { email, password } = req.body;
+//   const profileImage = req.files ? req.files.profileImage : null;
+
+//   let user = await getUserByEmail(email);
+//   if (user) {
+//     return res.status(422).json({ email: "Email taken." });
+//   }
+
+//   let imagePath;
+//   if (profileImage) {
+   
+//     const fileName = `${new Date().getTime()}_${profileImage.name}`;
+//     imagePath = path.join(__dirname, 'upload', fileName);
+
+//     await profileImage.mv(imagePath);
+
+//   }
+
+//   const passwordHash = hashPassword(password);
+
+//   user = await createUser(email, passwordHash, imagePath);
+//   user = sanitizeUser(user);
+
+
+//   res.status(201).json(user);
+// }
 
 export async function handleSignIn(req, res) {
   const { email, password } = req.body;

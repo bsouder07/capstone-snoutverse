@@ -4,7 +4,7 @@ const userSchema = new Schema({
   email: {
     type: String,
     required: true,
-    pattern: "/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/",
+    pattern: "/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/",
   },
   passwordHash: {
     type: String,

@@ -7,6 +7,7 @@ import router from "./routes";
 import fileupload from "express-fileupload"
 
 
+
 const app = express();
 const path = require('path');
 
@@ -21,7 +22,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/",fileupload());
+app.use(fileupload());
+
 
 app.use(keys.api_url, router);
 

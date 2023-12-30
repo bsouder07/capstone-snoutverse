@@ -4,7 +4,7 @@ export const handleFileUpload = (req, res) => {
     }
   
     let uploadedFile = req.files.profileImage; 
-    let uploadPath = __dirname + '/uploads/' + uploadedFile.name;
+    let uploadPath = __dirname + '/upload/' + uploadedFile.name;
   
     uploadedFile.mv(uploadPath, (err) => {
       if (err)
