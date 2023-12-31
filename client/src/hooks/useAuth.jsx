@@ -13,12 +13,14 @@ const useAuth = () => {
 
   const handleSignUp = async (
     email,
+    username,
     password,
     confirmPassword,
     file
   ) => {
     const response = await signUp(
       email,
+      username,
       password,
       confirmPassword,
       file
