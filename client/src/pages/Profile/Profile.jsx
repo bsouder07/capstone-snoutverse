@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import api from "../utils/api.utils";
+import api from "../../utils/api.utils.js";
+import { BottomNav } from "../../components/index";
+import Cards from "../../components/Cards/Cards.jsx";
+import "./Profile.css";
 
 const Profile = () => {
   const [profileUser, setProfileUser] = useState(null);
@@ -48,25 +51,24 @@ const Profile = () => {
   }, [userId]);
 
   return (
-    <div>
+    <div id="profileWrapper">
       <h1>Profile Page</h1>
 
       {/* loading and errors. We Can probably make a Loading spinner component */}
       {error && <p>{error}</p>}
       {loading && <p>loading profile information...</p>}
 
-      <p>{profileUser?.email}</p>
+      <p>{profileUser?.username}</p>
       {/* Feel free to style this component however you want. Brian is working on a Post component, so we can probably reuse that, if needed. - Tim Q. */}
 
       <h2>Posts</h2>
 
       {profileUser?.posts.map((post) => (
         <div key={post._id}>
-          <p>{post.text}</p>
-          <span>{post.created}</span>{" "}
-          {/* use helper function to turn this date into a human readable format */}
+          <Cards />
         </div>
       ))}
+      <BottomNav />
     </div>
   );
 };

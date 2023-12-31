@@ -20,9 +20,9 @@ function Cards({post}) {
           width={70}
           height={70}
           className="rounded-circle"
-          src={post.author.profile_image}
+          src={post.author.profileImage}
         />
-        <figcaption>{post.author.email}</figcaption>
+        <figcaption>{post.author.username}</figcaption>
       </Figure>
 
       <Card.Text className="mt-3">{post.text}</Card.Text>
