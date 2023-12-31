@@ -11,14 +11,20 @@ export async function getUserByEmail(email) {
   return await User.findOne({ email });
 }
 
+export async function getUserByUsername(username) {
+  return await User.findOne({ username });
+}
+
 export async function createUser(
   email,
+  username,
   passwordHash,
   role = 3,
   profileImage
 ) {
   return await User.create({
     email,
+    username,
     passwordHash,
     role,
     profileImage: profileImage ? profileImage : null,

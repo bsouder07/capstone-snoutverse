@@ -4,6 +4,7 @@
 import {
   createUser,
   getUserByEmail,
+  getUserByUsername,
   sanitizeUser,
 } from "../services/auth.services";
 import {
@@ -13,19 +14,28 @@ import {
 } from "../utils/auth.utils";
 
 export async function handleSignUp(req, res) {
-  const { email, password } = req.body;
+  const { username, email, password } = req.body;
 
   const profileImage = req.filePath ? req.filePath : null;
 
   let user = await getUserByEmail(email);
+  const doesUsernameExist = await getUserByUsername(username);
 
   if (user) {
     return res.status(422).json({ error: "Email taken." });
+  } else if (doesUsernameExist) {
+    return res.status(422).json({ error: "Username taken." });
   }
 
   const passwordHash = hashPassword(password);
 
-  user = await createUser(email, passwordHash, 3, profileImage);
+  user = await createUser(
+    email,
+    username,
+    passwordHash,
+    3,
+    profileImage
+  );
   user = sanitizeUser(user);
 
   res.status(201).json(user);

@@ -13,6 +13,7 @@ import UploadFile from "../components/UploadFile";
 
 const initialState = {
   email: "",
+  username: "",
   password: "",
   confirmPassword: "",
   profileImage: "",
@@ -20,7 +21,7 @@ const initialState = {
 
 const Register = () => {
   const [data, setData] = useState(initialState);
-  const [errors, setErrors] = useState(initialState);
+  const [errors, setErrors] = useState("");
   const [profileImage, setProfileImage] = useState(null);
   const { handleSignUp } = useAuth();
   const navigate = useNavigate();
@@ -32,18 +33,31 @@ const Register = () => {
     //Append the form values with image to the special FormData special object.
     formData.append("file", profileImage);
     formData.append("email", data.email);
+    formData.append("username", data.username);
     formData.append("password", data.password);
     formData.append("confirmPassword", data.confirmPassword);
 
     // I decided to separate them here, because we will have to do it on
     //the server anyway if I sent the whole formData object.
     const email = formData.get("email");
+    const username = formData.get("username");
     const password = formData.get("password");
     const confirmPassword = formData.get("confirmPassword");
     const file = formData.get("file");
 
-    await handleSignUp(email, password, confirmPassword, file);
-    navigate("/dashboard");
+    try {
+      await handleSignUp(
+        email,
+        username,
+        password,
+        confirmPassword,
+        file
+      );
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+      setErrors(error.response?.data);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -57,6 +71,22 @@ const Register = () => {
     <Container>
       <h1>Create an Account</h1>
       <Form onSubmit={handleSubmit}>
+        <Form.Group className="mt-5">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type="text"
+            autoComplete="off"
+            name="username"
+            value={data.username}
+            onChange={handleInputChange}
+            isInvalid={errors.username}
+            minLength="3"
+            maxLength="12"
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.username}
+          </Form.Control.Feedback>
+        </Form.Group>
         <Form.Group className="mt-5">
           <Form.Label>Email</Form.Label>
           <Form.Control
