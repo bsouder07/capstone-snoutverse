@@ -6,7 +6,7 @@ const router = Router();
 
 router.get("/", async (req, res) => {
   const populateQuery = [
-    { path: "author", select: ["email"] },
+    { path: "author", select: ["email", "profileImage", "username"] },
     // {path: "comments",
     // populate: {path:"author", select: ["email"]},
     // },
