@@ -3,7 +3,6 @@
 
 import { User } from "../models";
 
-
 export async function getUserById(id) {
   return await User.findById(id);
 }
@@ -12,14 +11,29 @@ export async function getUserByEmail(email) {
   return await User.findOne({ email });
 }
 
+export async function getUserByUsername(username) {
+  return await User.findOne({ username });
+}
 
-export async function createUser(email, passwordHash, role = 3) {
-  return await User.create({ email, passwordHash,role });
+export async function createUser(
+  email,
+  username,
+  passwordHash,
+  role = 3,
+  profileImage
+) {
+  return await User.create({
+    email,
+    username,
+    passwordHash,
+    role,
+    profileImage: profileImage ? profileImage : null,
+  });
 }
 
 export function sanitizeUser(user) {
   user = user.toJSON();
   delete user.passwordHash;
-  delete user.role
+  delete user.role;
   return user;
 }
