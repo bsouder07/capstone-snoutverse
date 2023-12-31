@@ -11,12 +11,7 @@ import { handleFileUpload } from "../controllers/fileUpload.controller";
 
 const router = Router();
 
-router.post(
-  "/signup",
-  validateSignUp,
-  handleFileUpload,
-  handleSignUp
-);
+router.post("/signup", handleFileUpload, handleSignUp);
 router.post("/signin", validateSignIn, handleSignIn);
 
 export default router;
