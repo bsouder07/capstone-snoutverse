@@ -1,21 +1,31 @@
 import { useContext } from "react";
-import authContext from "../providers/AuthProvider/authContext"
+import authContext from "../providers/AuthProvider/authContext";
 
-import { SIGNIN, SIGNOUT } from "../providers/AuthProvider/useAuthProvider";
+import {
+  SIGNIN,
+  SIGNOUT,
+} from "../providers/AuthProvider/useAuthProvider";
 import { signIn, signUp } from "../services/auth.services";
 import { setAccessToken } from "../utils/api.utils";
 
 const useAuth = () => {
   const { state, dispatch } = useContext(authContext);
 
-  const handleSignUp = async (email,password,confirmPassword, profileImage) =>{
-   
- const response = await signUp(email,password,confirmPassword, profileImage)
-  console.log(response);
-   await handleSignIn(email,password);
- 
+  const handleSignUp = async (
+    email,
+    password,
+    confirmPassword,
+    file
+  ) => {
+    const response = await signUp(
+      email,
+      password,
+      confirmPassword,
+      file
+    );
+    console.log(response);
+    await handleSignIn(email, password);
   };
-
 
   const handleSignIn = async (email, password) =>
     signIn(email, password).then((response) => {
@@ -26,8 +36,8 @@ const useAuth = () => {
       localStorage.setItem("test-auth", JSON.stringify(localAuth));
     });
 
-  const handleSignOut = ()=>{
-    dispatch({type: SIGNOUT});
+  const handleSignOut = () => {
+    dispatch({ type: SIGNOUT });
     localStorage.removeItem("test-auth");
   };
 
