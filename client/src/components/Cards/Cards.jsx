@@ -20,7 +20,7 @@ function Cards({post}) {
           width={70}
           height={70}
           className="rounded-circle"
-          src={post.author.profile_image}
+          src={post.author.profileImage}
         />
         <figcaption>{post.author.email}</figcaption>
       </Figure>
