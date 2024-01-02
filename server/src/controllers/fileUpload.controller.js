@@ -4,7 +4,8 @@ const UPLOAD_DIR = path.join(__dirname, "../../public/images/");
 
 export const handleFileUpload = (req, res, next) => {
   if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send("No files were uploaded.");
+    req.filePath = "/public/default-profileImage.png"; //if there is no file uploaded, use the default image
+    return next();
   }
 
   const uploadedFile = req.files.file;
