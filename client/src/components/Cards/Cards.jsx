@@ -12,6 +12,7 @@ import {
 
 
 function Cards({post}) {
+  console.log(post)
   return (
     <Card className="card_class" key={post._id}>
     <Card.Body>
@@ -20,7 +21,7 @@ function Cards({post}) {
           width={70}
           height={70}
           className="rounded-circle"
-          src={post.author.profileImage}
+          src={post.author?.profileImage}
         />
         <figcaption>{post.author.email}</figcaption>
       </Figure>
@@ -31,6 +32,7 @@ function Cards({post}) {
         {timeSince(post.created)} ago{" "}
       </Card.Text>
     </Card.Body>
+    
   </Card>
   )
 }

@@ -14,6 +14,7 @@ import { useState,useEffect } from "react";
 import axios from "axios";
 import api from "../../utils/api.utils";
 import Cards from "../../components/Cards/Cards";
+import { useAuth } from "../../hooks";
 
 const initialState = {
   postText: "",
@@ -22,14 +23,17 @@ const initialState = {
 };
 
 function Dashboard() {
+
   const [data, setData] = useState(initialState);
   const [postLoading, setPostLoading] = useState(true);
   const [postError, setPostError] = useState(false);
   const [posts, setPosts] = useState(null);
   const [validated, setValidated] = useState(false);
 
+  const {user} = useAuth()
+
   const handleInputChange = (event) => {
-    setData(event.target.value);
+    setData({...data, postText:event.target.value});
   };
 
   const handlePostSubmit = async (event) => {
@@ -58,10 +62,11 @@ function Dashboard() {
               ...res.data,
 
               author: {
-                username: user.username,
-                // profile_image:user.profile_image,
-                //Are we adding an image with the post? And, do I need to add that to the schema/route
-                // if it is not there?
+                email: user.email,
+                username:user.username,
+                profileImage:user.profileImage,
+                _id:user._id
+               
               },
             },
             ...posts,
@@ -121,7 +126,7 @@ function Dashboard() {
             Submit
           </Button>
         </Form>
-        {posts && posts.map((post) => <Cards key={post._id} post={posts} />)}
+        {posts && posts.map((post) => <Cards key={post._id} post={post} />)}
       </Container>
     </>
   );
