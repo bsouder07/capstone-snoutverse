@@ -55,8 +55,12 @@ router.get("/:userId", async (req, res) => {
 router.post("/", requireAuth(), async (req, res, next) => {
   const { text } = req.body;
   const { user } = req;
+  const populateQuery= [
+    {path: "author", select: ["email", "username","profileImage" ]}
+  ]
   console.log(user);
   console.log(text);
+
 
   //Is the new Post a constructor (of an object) referring to the post model?
   //it is user._id not user.id as Mongoose and MongoDB create a unique 12-byte identifier

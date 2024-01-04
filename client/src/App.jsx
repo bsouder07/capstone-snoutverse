@@ -10,18 +10,21 @@ import EmployeeDashboardPage from "./pages/EmployeeDashboardPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import Profile from "./pages/Profile";
 
+import Dashboard from "./pages/Dashboard/Dashboard";
+
 function App() {
   return (
     <>
       <Header />
+      <BottomNav/>
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-
         <Route path="/search" element={<Search />} />
+       
 
         <Route element={<ProtectedRoute requiredRole={0} />}>
-          <Route path="/dashboard" element={<UserDashboardPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
         <Route element={<ProtectedRoute requiredRole={2} />}>
           <Route
