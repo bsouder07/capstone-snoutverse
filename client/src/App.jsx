@@ -12,6 +12,7 @@ import AdminDashboardPage from "./pages/AdminDashboardPage";
 import Profile from "./pages/Profile";
 
 import Dashboard from "./pages/Dashboard/Dashboard";
+import GroupPage from "./pages/Groups/GroupPage";
 
 function App() {
   return (
@@ -49,7 +50,9 @@ function App() {
           <Route path="/profile/:userId" element={<Profile />} />
         </Route>
         <Route element={<ProtectedRoute requiredRole={3} />}>
-          <Route path="/groups" element={<Groups />} />
+          <Route path="/groups" element={<Groups />}>
+            <Route path=":groupId" element={<GroupPage />} />
+          </Route>
         </Route>
       </Routes>
     </>

@@ -29,9 +29,9 @@ const groupSchema = new Schema(
       type: ObjectId,
       ref: "User",
     },
-    cover_photo: {
+    groupIcon: {
       type: String,
-      default: "/images/default-grp-img.jpg",
+      default: "/default-grp-img.png",
     },
   },
   { timestamps: true }

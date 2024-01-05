@@ -4,8 +4,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 50%;
-  width: auto;
+
+  width: 30%;
   margin-top: 7%;
   font-weight: 300;
 }
@@ -22,4 +22,8 @@
   justify-content: center;
   width: 50%;
   margin-bottom: 2%;
+}
+
+#group-name {
+  text-align: center;
 }
