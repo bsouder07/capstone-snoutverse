@@ -27,7 +27,7 @@ function Dashboard() {
   const [data, setData] = useState(initialState);
   const [postLoading, setPostLoading] = useState(true);
   const [postError, setPostError] = useState(false);
-  const [posts, setPosts] = useState(null);
+  const [posts, setPosts] = useState([]);
   const [validated, setValidated] = useState(false);
 
   const {user} = useAuth()
@@ -126,7 +126,7 @@ function Dashboard() {
             Submit
           </Button>
         </Form>
-        {posts && posts.map((post) => <Cards key={post._id} post={post} />)}
+        {posts && posts.map((post) => <Cards key={post._id} post={post} setPosts={setPosts} />)}
       </Container>
     </>
   );
