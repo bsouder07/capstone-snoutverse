@@ -4,7 +4,9 @@
 import { User } from "../models";
 
 export async function getUserById(id) {
-  return await User.findById(id);
+  return await User.findById(id).populate([
+    { path: "groups", select: ["name", "description", "groupIcon"] },
+  ]);
 }
 
 export async function getUserByEmail(email) {
