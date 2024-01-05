@@ -1,13 +1,46 @@
+/* body{
+  background-image: url("../../../public/SnoutVerse.png");
+  
+} */
+
+
 .card-body {
-    border: 2px solid black;
-    border-radius: 5px;
-    padding: 1rem;
-    margin: 2px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    background-color: #eee9e9;
-  }
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 2px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: #eee9e9;
+}
+
+.card-body:hover {
+  box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.5);
+}
+
+.buttons {
+  display: flex;
+  justify-content: end;
+  margin-left: 5px;
+}
+.buttons-container .btn {
+  margin: 5px;
+}
+#editBtn {
+  background-color: white;
+  margin-left: 32rem;
+}
+
+#deleteBtn {
+  background-color: white;
+  margin-left: 1rem ;
   
-  .card-body:hover {
-    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.5);
-  }
-  
+}
+#editBtn:hover {
+  background-color: green;
+}
+
+#deleteBtn:hover {
+  background-color: red;
+}
+
+

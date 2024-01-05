@@ -1,0 +1,32 @@
+.textarea {
+  display: flex;
+}
+.textarea textarea{
+    width: 100%;
+    max-width: 60%;
+    background-color: #eee9e9;
+    border: 2px solid black;
+}
+
+#saveBtn {
+  margin-left: 5px;
+  background-color: #04aa6d; /* Green */
+  border: none;
+  color: black;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  border: 2px solid black;
+}
+#cancelBtn {
+  background-color: #ff6347;
+  color: black;
+  border: 2px solid black;
+  margin-left: 1px;
+}
+.saveBtn:hover {
+  background-color: #04aa6d;
+}
+.cancelBtn:hover {
+  background-color: #ff6347;
+}

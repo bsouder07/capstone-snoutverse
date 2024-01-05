@@ -20,7 +20,7 @@ function App() {
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/search" element={<Search />} />
+        
        
 
         <Route element={<ProtectedRoute requiredRole={0} />}>
@@ -47,6 +47,7 @@ function App() {
 
         <Route element={<ProtectedRoute requiredRole={3} />}>
           <Route path="/profile/:userId" element={<Profile />} />
+          <Route path="/search" element={<Search />} />
         </Route>
       </Routes>
     </>
