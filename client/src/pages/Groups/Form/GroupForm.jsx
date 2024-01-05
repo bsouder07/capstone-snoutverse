@@ -77,6 +77,7 @@ const GroupForm = ({ setAllGroups }) => {
           <Form.Group controlId="formBasicGroupIcon">
             <Form.Label>Group Icon</Form.Label>
             <UploadFile onFileChange={null} />
+            (Optional right now.)
           </Form.Group>
 
           <Button variant="primary" type="submit" disabled={loading}>

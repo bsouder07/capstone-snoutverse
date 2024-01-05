@@ -11,6 +11,8 @@ export async function createGroup(req, res) {
   }
 
   try {
+    let user = await User.findById(userId);
+
     const doesGroupExist = await Group.findOne({ name });
     if (doesGroupExist) {
       return res
@@ -25,6 +27,9 @@ export async function createGroup(req, res) {
       members: [userId],
       groupIcon: filePath ? filePath : "default-grp-img.png",
     });
+
+    user.groups.push(newGroup._id);
+    await user.save();
 
     return res.status(201).json(newGroup);
   } catch (error) {
@@ -128,6 +133,37 @@ export async function createPost(req, res) {
     });
 
     return res.status(201).json(newPost);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Something went wrong." });
+  }
+}
+
+export async function joinGroup(req, res) {
+  const { id } = req.params;
+  const { _id: userId } = req.user;
+
+  try {
+    const doesGroupExist = await Group.findById(id);
+
+    let group = doesGroupExist;
+
+    const isExistingMember = group.members.includes(userId);
+
+    if (isExistingMember) {
+      return res
+        .status(409)
+        .json({ error: "You are already a member of this group." });
+    }
+
+    group.members.push(userId);
+    await group.save();
+
+    const user = await User.findById(userId);
+
+    user.groups.push(id);
+    await user.save();
+    return res.status(200).json(group);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Something went wrong." });

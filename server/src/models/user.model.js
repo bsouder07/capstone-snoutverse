@@ -26,6 +26,12 @@ const userSchema = new Schema({
     max: 3,
     default: 3,
   },
+  groups: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Group",
+    },
+  ],
 });
 
 const User = model("User", userSchema);
