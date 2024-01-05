@@ -52,21 +52,18 @@ const Profile = () => {
 
   return (
     <div id="profileWrapper">
-      <h1>Profile Page</h1>
+      <img id="mainProfileImg" src={profileUser?.profileImage}/>
+      <h1 id="uNameTitle">{profileUser?.username}</h1>
 
       {/* loading and errors. We Can probably make a Loading spinner component */}
       {error && <p>{error}</p>}
       {loading && <p>loading profile information...</p>}
 
-      <p>{profileUser?.username}</p>
       {/* Feel free to style this component however you want. Brian is working on a Post component, so we can probably reuse that, if needed. - Tim Q. */}
-
-      <h2>Posts</h2>
+      <h2 id="postsTitle">Posts</h2>
 
       {profileUser?.posts.map((post) => (
-        <div key={post._id}>
-          <Cards />
-        </div>
+        <Cards key={post._id} post={post} />
       ))}
       <BottomNav />
     </div>

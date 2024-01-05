@@ -1,3 +1,19 @@
 #profileWrapper {
-    margin-top: 65px;
+    margin-top: 80px;
+    margin-bottom: 65px;
+}
+
+#uNameTitle, #postsTitle {
+    text-align: center;
+    margin-top: 5px;
+}
+
+#mainProfileImg {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    width: 125px;
+    height: 125px;
+    border: 1px solid black;
+    border-radius: 50%;
 }

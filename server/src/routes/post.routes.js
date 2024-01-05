@@ -29,12 +29,14 @@ router.get("/", async (req, res) => {
 router.get("/:userId", async (req, res) => {
   const { userId } = req.params;
   const populateQuery = [
+    { path: "author", select: ["email", "profileImage", "username"] },
     //we can use this when we do comments.
     // { path: "comments", populate: { path: "author", select: ["email"] } },
   ];
 
   try {
     const posts = await Post.find({ author: userId })
+      .populate(populateQuery)
       .sort({ created: -1 })
       .exec();
 
