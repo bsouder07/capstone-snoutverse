@@ -27,7 +27,7 @@ export const handleFileUpload = (req, res, next) => {
 
     req.filePath = `/images/${fileNameUnique}${fileExtension}`;
 
-    //pass to the next middleware (which is the controller/route in this case), req.filePath will now
+  //pass to the next middleware (which is the controller/route in this case), req.filePath will now
     //contain the path for saving in db.
     next();
   });
