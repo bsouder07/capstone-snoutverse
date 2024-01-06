@@ -43,9 +43,7 @@ router.get("/:userId", async (req, res) => {
     if (posts) {
       return res.json(posts.map((post) => post.toJSON()));
     } else {
-      return res
-        .status(404)
-        .json({ error: "No posts found for this user." });
+      return res.status(404).json({ error: "No posts found for this user." });
     }
   } catch (error) {
     console.log(error);
@@ -57,6 +55,9 @@ router.get("/:userId", async (req, res) => {
 router.post("/", requireAuth(), async (req, res, next) => {
   const { text } = req.body;
   const { user } = req;
+  const populateQuery = [
+    { path: "author", select: ["email", "username", "profileImage"] },
+  ];
   console.log(user);
   console.log(text);
 
@@ -75,6 +76,35 @@ router.post("/", requireAuth(), async (req, res, next) => {
   } catch (error) {
     console.log(error);
     next(error);
+  }
+});
+
+router.put("/:postId", requireAuth(), async (req,res) => {
+  const {postId} =req.params
+
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(postId)
+    if (updatedPost === null){
+      return res.sendStatus(404).json({error: "Post not found"});
+    }
+    res.sendStatus(200)
+
+  } catch (error) {
+  res.sendStatus(500).json({error: "Internal server error"})   
+  }
+})
+
+router.delete("/:postId", requireAuth(), async (req, res) => {
+  const { postId } = req.params;
+  try {
+    const deletePost = await Post.findByIdAndDelete(postId);
+
+    if (deletePost === null) {
+      return res.sendStatus(404).json({error: "Post not found"});
+    }
+    res.sendStatus(200);
+  } catch (error) {
+    res.sendStatus(500).json({error: "Internal server error"});
   }
 });
 

@@ -1,46 +1,51 @@
 import mongoose, { Schema, model } from "mongoose";
-const {ObjectId} = mongoose.Schema.Types
+const { ObjectId } = mongoose.Schema.Types;
 
-
-const postSchema = new Schema({
+const postSchema = new Schema(
+  {
     text: {
-        type:String,
-        required: true,
-        maxlength:120,
+      type: String,
+      required: true,
+      maxlength: 120,
     },
     author: {
-        type:ObjectId,
-        ref:"User",
+      type: ObjectId,
+      ref: "User",
     },
     created: {
-        type:Date,
-        default:Date.now,
+      type: Date,
+      default: Date.now,
     },
-    likes:[
-        {
-            type:ObjectId,
-            ref:"User",
-        },
+    likes: [
+      {
+        type: ObjectId,
+        ref: "User",
+      },
     ],
-   comments: [
-        {
-          text: {
-            type: String,
-            required: true,
-            maxlength: 120,
-          },
-          created: {
-            type: Date,
-            default: Date.now,
-          },
-          author: { type: ObjectId, ref: "User" },
+    comments: [
+      {
+        text: {
+          type: String,
+          required: true,
+          maxlength: 120,
         },
-      ],
+        created: {
+          type: Date,
+          default: Date.now,
+        },
+        author: { type: ObjectId, ref: "User" },
+      },
+    ],
 
+    group: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Group",
+      default: null,
+    },
+  },
+  { timestamps: true }
+);
 
+const Post = model("Post", postSchema);
 
-}, {timestamps:true})
-
-const Post = model("Post", postSchema)
-
-export default Post
+export default Post;

@@ -1,0 +1,11 @@
+.text_area{
+    width: 350px;
+    margin: 3px;
+    
+    
+}
+.form_class{
+    display: flex;
+    margin-bottom: 2rem;
+    align-items: center;
+}

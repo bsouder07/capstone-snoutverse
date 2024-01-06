@@ -4,24 +4,27 @@ import { Route, Router, Routes } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Search from "./pages/Search/Search";
+import Groups from "./pages/Groups/Groups";
 import UserDashboardPage from "./pages/UserDashboardPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import EmployeeDashboardPage from "./pages/EmployeeDashboardPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import Profile from "./pages/Profile/Profile";
 
+import Dashboard from "./pages/Dashboard/Dashboard";
+import GroupPage from "./pages/Groups/GroupPage";
+
 function App() {
   return (
     <>
       <Header />
+      <BottomNav />
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
 
-        <Route path="/search" element={<Search />} />
-
         <Route element={<ProtectedRoute requiredRole={0} />}>
-          <Route path="/dashboard" element={<UserDashboardPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
         <Route element={<ProtectedRoute requiredRole={2} />}>
           <Route
@@ -44,6 +47,13 @@ function App() {
 
         <Route element={<ProtectedRoute requiredRole={3} />}>
           <Route path="/profile/:userId" element={<Profile />} />
+          <Route path="/search" element={<Search />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredRole={3} />}>
+          <Route path="/groups" element={<Groups />}>
+            <Route path=":groupId" element={<GroupPage />} />
+          </Route>
         </Route>
       </Routes>
     </>
