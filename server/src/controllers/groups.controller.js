@@ -25,7 +25,7 @@ export async function createGroup(req, res) {
       description,
       createdBy: userId,
       members: [userId],
-      groupIcon: filePath ? filePath : "default-grp-img.png",
+      groupIcon: filePath ? filePath : "/default-grp-img.png",
     });
 
     user.groups.push(newGroup._id);
