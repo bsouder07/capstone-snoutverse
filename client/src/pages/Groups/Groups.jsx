@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import "./groups.css";
 import { useNavigate } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import GroupForm from "./Form/GroupForm";
 import api from "../../utils/api.utils";
 import GroupCard from "./GroupCard";
+import { useAuth } from "../../hooks";
 import { Outlet } from "react-router-dom";
+import GroupSelect from "./GroupSelect";
 
 const Groups = () => {
   const [allGroups, setAllGroups] = useState([]);
@@ -14,7 +16,20 @@ const Groups = () => {
   const [selectedGroupInfo, setSelectedGroupInfo] = useState(null);
   const [error, setError] = useState(null);
 
+  const { user } = useAuth();
+
   const navigate = useNavigate();
+
+  const isUserInGroup = () => {
+    console.log(user);
+    if (selectedGroupInfo) {
+      console.log(selectGroup);
+      const isUserInGroup = selectedGroupInfo.members.includes(
+        user?._id
+      );
+      return isUserInGroup;
+    }
+  };
 
   const handleSelectChange = (e) => {
     const selectedGroupId = e.target.value;
@@ -25,6 +40,21 @@ const Groups = () => {
     setSelectGroup(selectedGroup);
     setSelectedGroupInfo(selectedGroup);
     navigate(`/groups/${selectedGroupId}`);
+  };
+
+  const handleJoinGroup = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await api.put(
+        `/groups/join/${selectGroup._id}`
+      );
+      if (data) {
+        setSelectedGroupInfo(data);
+        setSelectGroup(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -44,30 +74,34 @@ const Groups = () => {
       }
     })();
   }, []);
+  //in the return any class/id that contains "empty" is to conditionally change the
+  //sizing to account for empty areas.
 
   return (
-    <div className="group-container">
-      <div className="group-header">Groups</div>
+    <div
+      className={
+        !selectGroup ? "group-container-empty" : "group-container"
+      }
+    >
+      <h1 className={!selectGroup ? "my-groups-empty" : "my-groups"}>
+        {!selectGroup
+          ? "Select a group from the dropdown"
+          : "My Groups"}
+      </h1>
 
-      <h1 className="my-groups">My Groups</h1>
+      <GroupSelect
+        allGroups={allGroups}
+        selectGroup={selectGroup}
+        handleSelectChange={handleSelectChange}
+      />
 
-      <Form.Select
-        className="group-list"
-        value={selectGroup ? selectGroup._id : ""}
-        onChange={handleSelectChange}
-      >
-        {allGroups.map((group) => (
-          <option
-            key={group._id}
-            className="group-card"
-            value={group._id}
-          >
-            {group.name}
-          </option>
-        ))}
-      </Form.Select>
-
-      {selectGroup && <GroupCard selectGroup={selectGroup} />}
+      {selectGroup && (
+        <GroupCard
+          selectGroup={selectGroup}
+          handleJoinGroup={handleJoinGroup}
+          isUserInGroup={isUserInGroup}
+        />
+      )}
 
       {selectGroup && <Outlet />}
 
@@ -75,7 +109,14 @@ const Groups = () => {
         Create Group
       </Button>
 
-      {showCreateGroup && <GroupForm setAllGroups={setAllGroups} />}
+      {showCreateGroup && (
+        <GroupForm
+          setAllGroups={setAllGroups}
+          setShowCreateGroup={setShowCreateGroup}
+          setSelectGroup={setSelectGroup}
+          setSelectedGroupInfo={setSelectedGroupInfo}
+        />
+      )}
     </div>
   );
 };

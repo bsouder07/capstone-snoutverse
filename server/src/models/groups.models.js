@@ -23,6 +23,10 @@ const groupSchema = new Schema(
       {
         type: ObjectId,
         ref: "User",
+        dateJoined: {
+          type: Date,
+          default: Date.now,
+        },
       },
     ],
     createdBy: {

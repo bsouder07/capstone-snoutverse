@@ -31,6 +31,11 @@ export async function createGroup(req, res) {
     user.groups.push(newGroup._id);
     await user.save();
 
+    await newGroup.populate({
+      path: "createdBy",
+      select: ["username", "email", "profileImage"],
+    });
+
     return res.status(201).json(newGroup);
   } catch (error) {
     console.log(error);
@@ -144,7 +149,10 @@ export async function joinGroup(req, res) {
   const { _id: userId } = req.user;
 
   try {
-    const doesGroupExist = await Group.findById(id);
+    const doesGroupExist = await Group.findById(id).populate({
+      path: "createdBy",
+      select: ["username", "profileImage", "email"],
+    });
 
     let group = doesGroupExist;
 

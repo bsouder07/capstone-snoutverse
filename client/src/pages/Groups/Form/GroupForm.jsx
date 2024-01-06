@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Form, Button, Stack } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import UploadFile from "../../../components/UploadFile";
 import api from "../../../utils/api.utils";
 
@@ -9,9 +10,16 @@ const initialFormState = {
   groupIcon: "",
 };
 
-const GroupForm = ({ setAllGroups }) => {
+const GroupForm = ({
+  setAllGroups,
+  setShowCreateGroup,
+  setSelectGroup,
+  setSelectedGroupInfo,
+}) => {
   const [formData, setFormData] = useState(initialFormState);
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,6 +36,10 @@ const GroupForm = ({ setAllGroups }) => {
       if (data) {
         setAllGroups((prevState) => [...prevState, data]);
         setFormData(initialFormState);
+        setShowCreateGroup(false);
+        setSelectGroup(data);
+        setSelectedGroupInfo(data);
+        navigate(`/groups/${data._id}`);
       }
     } catch (error) {
       console.log(error);

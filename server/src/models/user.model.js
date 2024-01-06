@@ -30,6 +30,10 @@ const userSchema = new Schema({
     {
       type: Schema.Types.ObjectId,
       ref: "Group",
+      dateJoined: {
+        type: Date,
+        default: Date.now,
+      },
     },
   ],
 });
