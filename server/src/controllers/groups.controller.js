@@ -112,6 +112,17 @@ export async function createPost(req, res) {
   const { _id: userId } = req.user;
   const { text } = req.body;
 
+  const query = [
+    {
+      path: "author",
+      select: "username  profileImage",
+    },
+    {
+      path: "group",
+      select: "name",
+    },
+  ];
+
   let filePath = null;
 
   if (req?.file) {
@@ -125,17 +136,35 @@ export async function createPost(req, res) {
   }
 
   try {
+    const checkIfUserIsMember = await Group.findOne({
+      _id: id,
+      members: userId,
+    });
+
+    if (!checkIfUserIsMember) {
+      return res
+        .status(401)
+        .json({
+          error:
+            "Only members join post in this group. If you wish to post you must join the group.",
+        });
+    }
+
     const group = await Group.findById(id);
     if (!group) {
       return res.status(404).json({ error: "Group not found." });
     }
 
-    const newPost = await Post.create({
+    let newPost = await Post.create({
       text,
       author: userId,
       group: id,
       postImage: filePath ? filePath : null,
     });
+
+    newPost = await newPost.populate(query);
+
+    console.log("new post", newPost);
 
     return res.status(201).json(newPost);
   } catch (error) {

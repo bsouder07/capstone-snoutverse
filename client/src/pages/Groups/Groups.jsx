@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./groups.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import GroupForm from "./Form/GroupForm";
 import api from "../../utils/api.utils";
@@ -13,17 +13,38 @@ const Groups = () => {
   const [allGroups, setAllGroups] = useState([]);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const [selectGroup, setSelectGroup] = useState(null);
+  const [groupPosts, setGroupPosts] = useState([]);
   const [selectedGroupInfo, setSelectedGroupInfo] = useState(null);
   const [error, setError] = useState(null);
+
+  const { pathname } = useLocation();
 
   const { user } = useAuth();
 
   const navigate = useNavigate();
 
+  const getIdFromPath = (url) => {
+    const urlArr = url.split("/");
+    const id = urlArr[urlArr.length - 1];
+    return id;
+  };
+
+  const allGroupsIds = allGroups.map((group) => group._id);
+
+  useEffect(() => {
+    const groupId = getIdFromPath(pathname);
+
+    if (allGroupsIds.includes(groupId)) {
+      const selectedGroup = allGroups.find(
+        (group) => group._id === groupId
+      );
+      setSelectGroup(selectedGroup);
+      setSelectedGroupInfo(selectedGroup);
+    }
+  }, [pathname, allGroups]);
+
   const isUserInGroup = () => {
-    console.log(user);
     if (selectedGroupInfo) {
-      console.log(selectGroup);
       const isUserInGroup = selectedGroupInfo.members.includes(
         user?._id
       );
@@ -88,13 +109,11 @@ const Groups = () => {
           ? "Select a group from the dropdown"
           : "My Groups"}
       </h1>
-
       <GroupSelect
         allGroups={allGroups}
         selectGroup={selectGroup}
         handleSelectChange={handleSelectChange}
       />
-
       {selectGroup && (
         <GroupCard
           selectGroup={selectGroup}
@@ -103,11 +122,35 @@ const Groups = () => {
         />
       )}
 
-      {selectGroup && <Outlet />}
+      {/* Reusing the GroupForm component for creating a post. */}
+      {selectGroup && (
+        <GroupForm
+          setAllGroups={setAllGroups}
+          setShowCreateGroup={setShowCreateGroup}
+          setSelectGroup={setSelectGroup}
+          selectGroup={selectGroup}
+          setSelectedGroupInfo={setSelectedGroupInfo}
+          setGroupPosts={setGroupPosts}
+          isForPost={true}
+        />
+      )}
+      {/* outlet to child GroupPage component route. */}
+      <Outlet context={[groupPosts, setGroupPosts]} />
+      {/*https://reactrouter.com/en/6.21.1/hooks/use-outlet-context */}
 
-      <Button onClick={() => setShowCreateGroup(!showCreateGroup)}>
-        Create Group
-      </Button>
+      {!selectGroup && (
+        <>
+          <h3 className="create-grp-heading">
+            Don't see one you that interests you?{" "}
+          </h3>
+          <Button
+            variant="outline-success"
+            onClick={() => setShowCreateGroup(!showCreateGroup)}
+          >
+            Create a Group
+          </Button>
+        </>
+      )}
 
       {showCreateGroup && (
         <GroupForm

@@ -1,13 +1,16 @@
-import { useParams } from "react-router-dom";
+import { useParams, useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Card, Badge, Image, Spinner, Button } from "react-bootstrap";
 import api from "../../utils/api.utils";
 
 const GroupPage = () => {
-  const [groupPosts, setGroupPosts] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const { groupId } = useParams();
+
+  const [groupPosts, setGroupPosts] = useOutletContext();
+  // https://reactrouter.com/en/6.21.1/hooks/use-outlet-context
 
   const filterPostsByGrpId = groupPosts.filter(
     (post) => post.group._id === groupId
@@ -59,13 +62,6 @@ const GroupPage = () => {
             <p>It's quiet in here. No Group posts yet.</p>
           </div>
         )}
-
-        <Button
-          id="grp-share-btn"
-          variant={noPosts ? "outline-warning" : "outline-info"}
-        >
-          {noPosts ? "Break the ice!" : "Share"}
-        </Button>
 
         {filterPostsByGrpId.map((post) => (
           <Card className="mb-3" key={post._id}>
