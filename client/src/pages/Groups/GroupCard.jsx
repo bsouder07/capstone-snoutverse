@@ -36,11 +36,17 @@ const GroupCard = ({
 
   const popover = (
     <Popover id="popover-basic">
-      <Popover.Header as="h3">Edit Group Icon</Popover.Header>
+      <Popover.Header id="popover-title" as="h3">
+        Edit Group Icon
+      </Popover.Header>
       <Popover.Body>
         <Form onSubmit={handleChangeIcon}>
           <UploadFile onFileChange={setSelectedGroupIcon} />
-          <Button variant="outline-success" type="submit">
+          <Button
+            id="popover-edit-btn"
+            variant="outline-success"
+            type="submit"
+          >
             Save
           </Button>
         </Form>
@@ -96,7 +102,11 @@ const GroupCard = ({
           {new Date(selectGroup.created).toLocaleDateString()}
         </span>
         {!isAlreadyJoined && (
-          <Button variant="outline-success" onClick={handleJoinGroup}>
+          <Button
+            variant="outline-success"
+            className={!isAlreadyJoined ? "pulse-btn" : ""}
+            onClick={handleJoinGroup}
+          >
             Join
           </Button>
         )}

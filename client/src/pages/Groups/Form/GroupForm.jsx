@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, Button, Stack } from "react-bootstrap";
+import { Form, Button, Stack, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import UploadFile from "../../../components/UploadFile";
 import api from "../../../utils/api.utils";
@@ -23,6 +23,7 @@ const GroupForm = ({
   selectGroup,
   setSelectedGroupInfo,
   setGroupPosts,
+  isUserInGroup,
   isForPost = null,
 }) => {
   const [formData, setFormData] = useState(
@@ -101,9 +102,16 @@ const GroupForm = ({
       console.log(error);
     }
   };
-
+  if (isForPost && !isUserInGroup()) {
+    return (
+      <Alert variant="warning" className="mt-3">
+        You must be a member to post in this group
+      </Alert>
+    );
+  }
   return (
     <div>
+      {/* {!isForPost && isUserInGroup() && } */}
       <Form onSubmit={handleFormSubmit}>
         <Form.Group controlId="formBasicName">
           <Form.Label>
@@ -121,12 +129,12 @@ const GroupForm = ({
             isInvalid={
               !isForPost
                 ? formData.name.length < 3
-                : txtNotCountingSpaces.length < 35
+                : txtNotCountingSpaces.length < 30
             }
             isValid={
               !isForPost
                 ? formData.name.length >= 3
-                : txtNotCountingSpaces.length >= 35
+                : txtNotCountingSpaces.length >= 30
             }
             value={!isForPost ? formData.name : formData.text}
             onChange={handleChange}
@@ -135,7 +143,7 @@ const GroupForm = ({
           <Form.Control.Feedback type="invalid">
             {!isForPost
               ? "A group name must be at least 3 characters long."
-              : "A post must be less than 35 characters long."}
+              : "A post must be atleast 30 characters long."}
           </Form.Control.Feedback>
           <Form.Control.Feedback type="valid">
             {!isForPost ? "Looks good!" : "Nice post!"}
@@ -144,7 +152,7 @@ const GroupForm = ({
             <div className="d-flex">
               <Form.Text
                 className={
-                  txtNotCountingSpaces.length > 35
+                  txtNotCountingSpaces.length > 30
                     ? "text-danger"
                     : "text-muted"
                 }
@@ -157,7 +165,7 @@ const GroupForm = ({
           )}
         </Form.Group>
 
-        {/* If this component is being used to create a new post, then don't render the input for description 👇🏻 */}
+        {/* If this component is being used to create a new group post, then don't render the input for description 👇🏻 */}
         {!isForPost && (
           <Form.Group controlId="formBasicDescription">
             <Form.Label>Group Description</Form.Label>

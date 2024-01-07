@@ -152,6 +152,7 @@ const Groups = () => {
           selectGroup={selectGroup}
           setSelectedGroupInfo={setSelectedGroupInfo}
           setGroupPosts={setGroupPosts}
+          isUserInGroup={isUserInGroup}
           isForPost={true}
         />
       )}

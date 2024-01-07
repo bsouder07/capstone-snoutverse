@@ -30,6 +30,7 @@
 }
 
 #group-name,
+#popover-title,
 .group-list {
   text-align: center;
 }
@@ -133,6 +134,37 @@ img.card-img-top {
   max-height: auto;
 }
 
+/* pop over for group icon edit */
+
+#popover-basic {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  border: 1px solid #f8f9fa;
+  box-shadow: 0pt 0pt 10pt 0pt rgba(0, 0, 0, 0.2);
+}
+
+#popover-edit-btn {
+  margin: 2% auto 0 5rem;
+}
+
+/* pulse join group button is user is NOT a member of it.*/
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.pulse-btn {
+  animation: pulse 1.5s infinite;
+}
+
+/* media queries */
 @media (max-width: 768px) {
   .card-img-top {
     max-height: 200px;
