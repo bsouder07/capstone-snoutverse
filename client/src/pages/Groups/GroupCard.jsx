@@ -5,10 +5,9 @@ import {
   Form,
   Image,
   OverlayTrigger,
+  Popover,
 } from "react-bootstrap";
-import Popover from "react-bootstrap/Popover";
 import { useState } from "react";
-import api from "../../utils/api.utils";
 import { useAuth } from "../../hooks";
 import UploadFile from "../../components/UploadFile";
 
@@ -95,8 +94,7 @@ const GroupCard = ({
             </Badge>
           )}
         </Card.Text>
-      </Card.Body>
-      <Card.Footer>
+
         <span className="date-grp-created">
           Created on:{" "}
           {new Date(selectGroup.created).toLocaleDateString()}
@@ -110,7 +108,7 @@ const GroupCard = ({
             Join
           </Button>
         )}
-      </Card.Footer>
+      </Card.Body>
     </Card>
   );
 };
