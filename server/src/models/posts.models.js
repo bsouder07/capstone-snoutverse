@@ -38,7 +38,7 @@ const postSchema = new Schema(
     ],
 
     group: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: ObjectId,
       ref: "Group",
       default: null,
     },
