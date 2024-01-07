@@ -44,12 +44,17 @@ const GroupForm = ({
     }));
   };
 
-  const handlePostFileChange = (file) => {
+  const handleFileChange = (file) => {
     if (isForPost) {
       console.log(file);
       setFormData((prevState) => ({
         ...prevState,
         image: file,
+      }));
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        groupIcon: file,
       }));
     }
   };
@@ -58,14 +63,19 @@ const GroupForm = ({
     e.preventDefault();
 
     const formPayload = new FormData();
-    formPayload.append("text", formData.text);
-    formPayload.append("file", formData.image);
 
-    //The headers may need to change is the regular posts send images, because
-    //Then we would just use multipart/form-data.
-    const headers = isForPost
-      ? { headers: { "Content-Type": "multipart/form-data" } }
-      : { headers: { "Content-Type": "application/json" } };
+    if (isForPost) {
+      formPayload.append("text", formData.text);
+      formPayload.append("file", formData.image);
+    } else {
+      formPayload.append("name", formData.name);
+      formPayload.append("description", formData.description);
+      formPayload.append("file", formData.groupIcon);
+    }
+
+    const headers = {
+      headers: { "Content-Type": "multipart/form-data" },
+    };
 
     try {
       const { data } = await api.post(
@@ -179,7 +189,7 @@ const GroupForm = ({
             <Form.Label>
               {!isForPost ? "Group Icon" : "Post photo"}
             </Form.Label>
-            <UploadFile onFileChange={handlePostFileChange} />
+            <UploadFile onFileChange={handleFileChange} />
             (Optional right now.)
           </Form.Group>
 

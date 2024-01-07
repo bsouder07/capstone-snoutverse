@@ -8,6 +8,10 @@ const postSchema = new Schema(
       required: true,
       maxlength: 120,
     },
+    image: {
+      type: String,
+      default: null,
+    },
     author: {
       type: ObjectId,
       ref: "User",

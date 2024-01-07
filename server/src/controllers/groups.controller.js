@@ -6,8 +6,8 @@ export async function createGroup(req, res) {
 
   let filePath = null;
 
-  if (req?.file) {
-    filePath = req.file;
+  if (req?.filePath) {
+    filePath = req.filePath;
   }
 
   try {
@@ -125,8 +125,8 @@ export async function createPost(req, res) {
 
   let filePath = null;
 
-  if (req?.file) {
-    filePath = req.file;
+  if (req?.filePath) {
+    filePath = req.filePath;
   }
 
   if (!text) {
@@ -142,12 +142,10 @@ export async function createPost(req, res) {
     });
 
     if (!checkIfUserIsMember) {
-      return res
-        .status(401)
-        .json({
-          error:
-            "Only members join post in this group. If you wish to post you must join the group.",
-        });
+      return res.status(401).json({
+        error:
+          "Only members join post in this group. If you wish to post you must join the group.",
+      });
     }
 
     const group = await Group.findById(id);
@@ -159,7 +157,7 @@ export async function createPost(req, res) {
       text,
       author: userId,
       group: id,
-      postImage: filePath ? filePath : null,
+      image: filePath ? filePath : null,
     });
 
     newPost = await newPost.populate(query);
