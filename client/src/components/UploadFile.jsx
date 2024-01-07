@@ -9,6 +9,11 @@ const UploadFile = ({ onFileChange }) => {
       onFileChange(file);
       setPreviewUrl(URL.createObjectURL(file));
     }
+
+    //clear preview if no file.
+    if (!file) {
+      setPreviewUrl(null);
+    }
   };
 
   return (
