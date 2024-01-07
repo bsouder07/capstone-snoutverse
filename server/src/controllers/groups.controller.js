@@ -204,3 +204,40 @@ export async function joinGroup(req, res) {
     return res.status(500).json({ error: "Something went wrong." });
   }
 }
+
+export async function handleEditGroupIcon(req, res) {
+  const { id } = req.params;
+  const { _id: userId } = req.user;
+
+  try {
+    let filePath = null;
+
+    if (req?.filePath) {
+      filePath = req.filePath;
+    }
+
+    let group = await Group.findById(id).populate({
+      path: "createdBy",
+      select: ["username", "email", "profileImage"],
+    });
+
+    const checkIfUserIsOwner = await Group.findOne({
+      _id: id,
+      createdBy: userId,
+    });
+
+    if (!checkIfUserIsOwner) {
+      return res
+        .status(401)
+        .json({ error: "Only group owner can change group icon." });
+    }
+
+    group.groupIcon = filePath;
+    await group.save();
+
+    return res.status(200).json(group);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Something went wrong." });
+  }
+}

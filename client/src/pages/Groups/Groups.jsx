@@ -15,6 +15,7 @@ const Groups = () => {
   const [selectGroup, setSelectGroup] = useState(null);
   const [groupPosts, setGroupPosts] = useState([]);
   const [selectedGroupInfo, setSelectedGroupInfo] = useState(null);
+  const [selectedGroupIcon, setSelectedGroupIcon] = useState(null);
   const [error, setError] = useState(null);
 
   const { pathname } = useLocation();
@@ -78,6 +79,24 @@ const Groups = () => {
     }
   };
 
+  const handleChangeIcon = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const { data } = await api.put(
+        `groups/edit-icon/${selectGroup._id}`,
+        { file: selectedGroupIcon },
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      if (data) {
+        setSelectedGroupInfo(data);
+        setSelectGroup(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     (async () => {
       try {
@@ -119,6 +138,8 @@ const Groups = () => {
           selectGroup={selectGroup}
           handleJoinGroup={handleJoinGroup}
           isUserInGroup={isUserInGroup}
+          handleChangeIcon={handleChangeIcon}
+          setSelectedGroupIcon={setSelectedGroupIcon}
         />
       )}
 
