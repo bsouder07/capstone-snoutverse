@@ -3,7 +3,7 @@
     margin-bottom: 65px;
 }
 
-#uNameTitle, #postsTitle {
+#uNameTitle, .title {
     text-align: center;
     margin-top: 5px;
 }
@@ -16,4 +16,27 @@
     height: 125px;
     border: 1px solid black;
     border-radius: 50%;
+}
+
+.group {
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 2px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: #eee9e9;
+}
+
+.group:hover {
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.5);
+}
+
+.groupImg {
+    width: 100px;
+    padding: 10px;
+}
+
+#groupLink {
+    color: black;
+    text-decoration: none;
 }

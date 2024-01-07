@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import api from "../../utils/api.utils.js";
 import { BottomNav } from "../../components/index";
 import Cards from "../../components/Cards/Cards.jsx";
@@ -59,8 +59,20 @@ const Profile = () => {
       {error && <p>{error}</p>}
       {loading && <p>loading profile information...</p>}
 
+    <h3 className="title">Groups</h3>
+    <div>
+      {profileUser?.groups.map((groups) => (
+        <div className="group" key={groups._id}>
+          <img className="groupImg" src={groups.groupIcon}/>
+          <Link id="groupLink" to={`/groups/${groups._id}`}>{groups.name}</Link>
+          <p>{groups.description}</p>
+        </div>
+      ))}
+    </div>
+    
+
       {/* Feel free to style this component however you want. Brian is working on a Post component, so we can probably reuse that, if needed. - Tim Q. */}
-      <h2 id="postsTitle">Posts</h2>
+      <h3 className="title">Posts</h3>
 
       {profileUser?.posts.map((post) => (
         <Cards key={post._id} post={post} />
