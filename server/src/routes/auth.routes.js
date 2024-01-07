@@ -7,11 +7,11 @@ import {
   validateSignUp,
   validateSignIn,
 } from "../middleware/validation.middleware";
-import { handleFileUpload } from "../controllers/fileUpload.controller";
+import { handleRegProfilePicUpload } from "../controllers/fileUpload.controller";
 
 const router = Router();
 
-router.post("/signup", handleFileUpload, handleSignUp);
+router.post("/signup", handleRegProfilePicUpload, handleSignUp);
 router.post("/signin", validateSignIn, handleSignIn);
 
 export default router;

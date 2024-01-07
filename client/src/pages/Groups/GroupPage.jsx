@@ -1,6 +1,6 @@
 import { useParams, useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Card, Badge, Image, Spinner, Button } from "react-bootstrap";
+import { Card, Badge, Image, Spinner } from "react-bootstrap";
 import api from "../../utils/api.utils";
 
 const GroupPage = () => {
@@ -67,6 +67,10 @@ const GroupPage = () => {
           <Card className="mb-3" key={post._id}>
             <Card.Body>
               <Card.Text>{post.text}</Card.Text>
+              {post.image && (
+                <Card.Img variant="top" src={post.image} />
+              )}
+
               <Card.Footer className="text-muted">
                 <span className="mr-2">
                   {post.author.username}

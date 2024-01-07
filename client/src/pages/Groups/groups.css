@@ -1,11 +1,13 @@
 .group-container {
   flex-direction: column;
   display: flex;
+  max-height: 100%;
+  max-width: 100%;
   align-items: center;
   justify-content: center;
   width: 70%;
   font-weight: 300;
-  margin: 20% auto 0 auto;
+  margin: 20% auto 10% auto;
 }
 
 .group-container-empty {
@@ -124,4 +126,15 @@ h3.create-grp-heading {
 
   font-weight: 300;
   margin: 20% auto 5% auto;
+}
+
+img.card-img-top {
+  object-fit: cover;
+  max-height: auto;
+}
+
+@media (max-width: 768px) {
+  .card-img-top {
+    max-height: 200px;
+  }
 }
