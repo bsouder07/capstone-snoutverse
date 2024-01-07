@@ -10,6 +10,9 @@ const Profile = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(2);
+
   const { userId } = useParams();
 
   useEffect(() => {
@@ -50,6 +53,19 @@ const Profile = () => {
     })();
   }, [userId]);
 
+  // Below is the pagination for the groups section
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = profileUser?.groups.slice(indexOfFirstItem, indexOfLastItem);
+
+  const pageNumbers = [];
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  for(let i = 1; i <= Math.ceil(profileUser?.groups.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  };
+  
   return (
     <div id="profileWrapper">
       <img id="mainProfileImg" src={profileUser?.profileImage}/>
@@ -61,13 +77,20 @@ const Profile = () => {
 
     <h3 className="title">Groups</h3>
     <div>
-      {profileUser?.groups.map((groups) => (
+    {currentItems?.map((groups) => (
         <div className="group" key={groups._id}>
           <img className="groupImg" src={groups.groupIcon}/>
           <Link id="groupLink" to={`/groups/${groups._id}`}>{groups.name}</Link>
           <p>{groups.description}</p>
         </div>
       ))}
+      <div id="pageNums">
+      {pageNumbers?.map((number) => (
+        <span key={number}>
+           <button onClick={() => paginate(number)} className={`groupItem ${currentPage === number ? "active" : null}`}>{number}</button>
+        </span>
+      ))}
+      </div>
     </div>
     
 

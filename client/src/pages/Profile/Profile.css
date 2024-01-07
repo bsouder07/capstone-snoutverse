@@ -40,3 +40,21 @@
     color: black;
     text-decoration: none;
 }
+
+#pageNums {
+    margin-right: auto;
+    margin-left: auto;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.groupItem {
+    border-radius: 5px;
+    margin: 1px;
+    font-size: .8em;
+}
+
+.active {
+    background-color: #0d6efd;
+}
