@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import api from "../utils/api.utils";
+import { Link, useParams } from "react-router-dom";
+import api from "../../utils/api.utils.js";
+import { BottomNav } from "../../components/index";
+import Cards from "../../components/Cards/Cards.jsx";
+import "./Profile.css";
 
 const Profile = () => {
   const [profileUser, setProfileUser] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(2);
 
   const { userId } = useParams();
 
@@ -47,26 +53,54 @@ const Profile = () => {
     })();
   }, [userId]);
 
+  // Below is the pagination for the groups section
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = profileUser?.groups.slice(indexOfFirstItem, indexOfLastItem);
+
+  const pageNumbers = [];
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  for(let i = 1; i <= Math.ceil(profileUser?.groups.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  };
+  
   return (
-    <div>
-      <h1>Profile Page</h1>
+    <div id="profileWrapper">
+      <img id="mainProfileImg" src={profileUser?.profileImage}/>
+      <h1 id="uNameTitle">{profileUser?.username}</h1>
 
       {/* loading and errors. We Can probably make a Loading spinner component */}
       {error && <p>{error}</p>}
       {loading && <p>loading profile information...</p>}
 
-      <p>{profileUser?.email}</p>
-      {/* Feel free to style this component however you want. Brian is working on a Post component, so we can probably reuse that, if needed. - Tim Q. */}
-
-      <h2>Posts</h2>
-
-      {profileUser?.posts.map((post) => (
-        <div key={post._id}>
-          <p>{post.text}</p>
-          <span>{post.created}</span>{" "}
-          {/* use helper function to turn this date into a human readable format */}
+    <h3 className="title">Groups</h3>
+    <div>
+    {currentItems?.map((groups) => (
+        <div className="group" key={groups._id}>
+          <img className="groupImg" src={groups.groupIcon}/>
+          <Link id="groupLink" to={`/groups/${groups._id}`}>{groups.name}</Link>
+          <p>{groups.description}</p>
         </div>
       ))}
+      <div id="pageNums">
+      {pageNumbers?.map((number) => (
+        <span key={number}>
+           <button onClick={() => paginate(number)} className={`groupItem ${currentPage === number ? "active" : null}`}>{number}</button>
+        </span>
+      ))}
+      </div>
+    </div>
+    
+
+      {/* Feel free to style this component however you want. Brian is working on a Post component, so we can probably reuse that, if needed. - Tim Q. */}
+      <h3 className="title">Posts</h3>
+
+      {profileUser?.posts.map((post) => (
+        <Cards key={post._id} post={post} />
+      ))}
+      <BottomNav />
     </div>
   );
 };

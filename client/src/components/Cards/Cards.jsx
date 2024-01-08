@@ -91,16 +91,16 @@ function Cards({ post,setPosts }) {
 
   return (
     <Card className="card_class" key={post._id}>
-      <Card.Body>
-        <Figure className="d-flex align-items-center">
-          <Figure.Image
-            width={70}
-            height={70}
-            className="rounded-circle"
-            src={post.author?.profileImage}
-          />
-          <figcaption>{post.author.email}</figcaption>
-        </Figure>
+    <Card.Body>
+      <Figure className="d-flex align-items-center">
+        <Figure.Image
+          width={70}
+          height={70}
+          className="rounded-circle"
+          src={post.author.profileImage}
+        />
+        <figcaption>{post.author.username}</figcaption>
+      </Figure>
 
         <Card.Text className="mt-3">{post.text}</Card.Text>
 

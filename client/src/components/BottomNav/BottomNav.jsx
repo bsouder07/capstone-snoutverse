@@ -1,7 +1,6 @@
-import { Nav, Navbar } from "react-bootstrap";
+import { Nav, Navbar, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import {
-  FaCircleUser,
   FaHouse,
   FaMagnifyingGlass,
   FaUserGroup,
@@ -28,7 +27,7 @@ function BottomNav() {
         <FaUserGroup size={30} />
       </Nav.Link>
       <Nav.Link as={Link} to={`/profile/${user?._id}`}>
-        <FaCircleUser size={30} />
+        <Image src={user?.profileImage} width="30px" height="30px"/>
       </Nav.Link>
     </Navbar>
   );
