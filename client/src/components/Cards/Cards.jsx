@@ -22,7 +22,7 @@ function Cards({ post, setPosts }) {
   const [isEdit, setisEditing] = useState(false);
   const likes = post.likes || [];
   const { user, isAuthenticated } = useAuth();
-  const isLikedByCurrentUser = likes.includes(user.uid);
+  const isLikedByCurrentUser = likes.includes(user._id);
   const [likedState, setLiked] = useState(isLikedByCurrentUser);
   const [likesState, setLikes] = useState(likes.length);
 
@@ -97,30 +97,38 @@ function Cards({ post, setPosts }) {
     try {
       const response = await api.post(`/posts/like/${post._id}`);
       if (response.status === 200) {
-        setLiked(response.data.likes.includes(user.uid));
-        setLikes(response.data.likes.length);
+        let doesUserLikePost = response.data.likes.includes(user._id);
+        console.log(doesUserLikePost);
+        if (doesUserLikePost) {
+          setLiked(true);
+          setLikes(likesState + 1);
+        } else {
+          setLiked(false);
+          setLikes(likesState - 1);
+        }
       }
     } catch (error) {
       console.error(error);
     }
   };
-  
+  console.log(isLikedByCurrentUser);
+
   return (
     <Card className="card_class" key={post._id}>
-    <Card.Body>
-      <Figure className="d-flex align-items-center">
-        <Figure.Image
-          width={70}
-          height={70}
-          className="rounded-circle"
-          src={post.author?.profileImage}
-        />
-        <figcaption>{post.author.username}</figcaption>
-      </Figure>
+      <Card.Body>
+        <Figure className="d-flex align-items-center">
+          <Figure.Image
+            width={70}
+            height={70}
+            className="rounded-circle"
+            src={post.author?.profileImage}
+          />
+          <figcaption>{post.author.username}</figcaption>
+        </Figure>
 
         <Card.Text className="mt-3">{post.text}</Card.Text>
         {post.image && (
-          <Card.Img id="Post_image"  src={post.image} alt="Post Image"/>
+          <Card.Img id="Post_image" src={post.image} alt="Post Image" />
         )}
 
         <Card.Text>
@@ -144,17 +152,16 @@ function Cards({ post, setPosts }) {
               onClick={deletePost}
             >
               Delete
-            </Button>  
+            </Button>
           )}
-            <Button
+          <Button
             id="likedBtn"
-        type="button"
-        className={`btn ${likedState ? 'btn-success' : 'btn-outline-success'}`}
-        onClick={handleToggleLike}
-      >
-        {likedState ? 'Liked' : 'Like'} {likesState}
-      </Button>
-
+            type="button"
+            variant={likedState ? "success" : "outline-success"}
+            onClick={handleToggleLike}
+          >
+            {likedState ? "Liked" : "Like"}
+          </Button>
         </Card.Text>
       </Card.Body>
     </Card>
@@ -162,4 +169,3 @@ function Cards({ post, setPosts }) {
 }
 
 export default Cards;
-
