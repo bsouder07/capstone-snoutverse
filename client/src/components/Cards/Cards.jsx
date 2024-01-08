@@ -113,12 +113,15 @@ function Cards({ post, setPosts }) {
           width={70}
           height={70}
           className="rounded-circle"
-          src={post.author.profileImage}
+          src={post.author?.profileImage}
         />
         <figcaption>{post.author.username}</figcaption>
       </Figure>
 
         <Card.Text className="mt-3">{post.text}</Card.Text>
+        {post.image && (
+          <Card.Img id="Post_image"  src={post.image} alt="Post Image"/>
+        )}
 
         <Card.Text>
           {new Date(post.created).toLocaleDateString()} -{" "}

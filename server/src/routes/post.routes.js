@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { Post } from "../models";
 import { requireAuth } from "../middleware/auth.middleware";
+import {handlePostImageUpload} from "../controllers/fileUpload.controller";
 
 const router = Router();
 
@@ -22,6 +23,8 @@ router.get("/", async (req, res) => {
     .exec();
   res.json(posts.map((post) => post.toJSON()));
 });
+
+
 
 /**
  * @route GET /api/posts/:userId
@@ -52,7 +55,7 @@ router.get("/:userId", async (req, res) => {
 });
 
 //requireAuth
-router.post("/", requireAuth(), async (req, res, next) => {
+router.post("/", requireAuth(),handlePostImageUpload, async (req, res, next) => {
   const { text } = req.body;
   const { user } = req;
   const populateQuery = [
@@ -61,11 +64,20 @@ router.post("/", requireAuth(), async (req, res, next) => {
   console.log(user);
   console.log(text);
 
+  let filePath = null;
+
+  if (req?.filePath) {
+    filePath = req.filePath;
+  }
+  
+
+
   //Is the new Post a constructor (of an object) referring to the post model?
   //it is user._id not user.id as Mongoose and MongoDB create a unique 12-byte identifier
   const post = new Post({
     text: text,
     author: user._id,
+    image: filePath ? filePath : null,
   });
 
   try {
@@ -78,6 +90,8 @@ router.post("/", requireAuth(), async (req, res, next) => {
     next(error);
   }
 });
+
+
 
 router.put("/:postId", requireAuth(), async (req,res) => {
   const {postId} =req.params
