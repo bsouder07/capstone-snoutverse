@@ -12,7 +12,7 @@ const groupSchema = new Schema(
     description: {
       type: String,
       required: [true, "You must provide a group description."],
-      maxLength: 120,
+      maxLength: 200,
       minLength: 10,
     },
     created: {
@@ -23,6 +23,10 @@ const groupSchema = new Schema(
       {
         type: ObjectId,
         ref: "User",
+        dateJoined: {
+          type: Date,
+          default: Date.now,
+        },
       },
     ],
     createdBy: {

@@ -8,6 +8,10 @@ const postSchema = new Schema(
       required: true,
       maxlength: 120,
     },
+    image: {
+      type: String,
+      default: null,
+    },
     author: {
       type: ObjectId,
       ref: "User",
@@ -38,7 +42,7 @@ const postSchema = new Schema(
     ],
 
     group: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: ObjectId,
       ref: "Group",
       default: null,
     },

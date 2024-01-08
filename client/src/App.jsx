@@ -9,7 +9,7 @@ import UserDashboardPage from "./pages/UserDashboardPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import EmployeeDashboardPage from "./pages/EmployeeDashboardPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
-import Profile from "./pages/Profile";
+import Profile from "./pages/Profile/Profile";
 
 import Dashboard from "./pages/Dashboard/Dashboard";
 import GroupPage from "./pages/Groups/GroupPage";
