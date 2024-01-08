@@ -124,6 +124,10 @@ const Groups = () => {
         !selectGroup ? "group-container-empty" : "group-container"
       }
     >
+      <h1 className="groups_title">{!selectGroup && 
+        "Build your SnoutVerse Community"
+      
+      }</h1>
       <h1 className={!selectGroup ? "my-groups-empty" : "my-groups"}>
         {!selectGroup
           ? "Select a group from the dropdown"

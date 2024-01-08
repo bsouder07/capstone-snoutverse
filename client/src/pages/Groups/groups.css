@@ -106,7 +106,7 @@
   justify-content: center;
 
   font-weight: 300;
-  margin: 20% auto 5% auto;
+  margin: 10% auto 5% auto;
 }
 
 #group-post-card {
@@ -195,8 +195,7 @@ h3.create-grp-heading {
 .grp-img-container {
   position: relative;
   overflow: hidden;
-  width: 300px;
-  margin-top: 103%;
+  width: 1000px;
 }
 .img-overlay {
   position: absolute;
@@ -325,4 +324,16 @@ small.text-muted {
   .grp-img-container {
     margin-top: 122%;
   }
+  @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap");
+}
+.groups_title {
+  position: absolute;
+  top: 15rem;
+  font-size: 3rem;
+  font-family: "Playfair Display", serif;
+  color: #0056b3;
+
+  font-weight: 700;
+  text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.05em;
 }
