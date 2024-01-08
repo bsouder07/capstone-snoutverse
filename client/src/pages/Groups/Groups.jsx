@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import "./groups.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Image } from "react-bootstrap";
 import GroupForm from "./Form/GroupForm";
 import api from "../../utils/api.utils";
 import GroupCard from "./GroupCard";
 import { useAuth } from "../../hooks";
 import { Outlet } from "react-router-dom";
 import GroupSelect from "./GroupSelect";
+import dogsPhoto from "../../../public/dogs.png";
 
 const Groups = () => {
   const [allGroups, setAllGroups] = useState([]);
@@ -15,6 +16,7 @@ const Groups = () => {
   const [selectGroup, setSelectGroup] = useState(null);
   const [groupPosts, setGroupPosts] = useState([]);
   const [selectedGroupInfo, setSelectedGroupInfo] = useState(null);
+  const [selectedGroupIcon, setSelectedGroupIcon] = useState(null);
   const [error, setError] = useState(null);
 
   const { pathname } = useLocation();
@@ -78,6 +80,24 @@ const Groups = () => {
     }
   };
 
+  const handleChangeIcon = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const { data } = await api.put(
+        `groups/edit-icon/${selectGroup._id}`,
+        { file: selectedGroupIcon },
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      if (data) {
+        setSelectedGroupInfo(data);
+        setSelectGroup(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     (async () => {
       try {
@@ -119,6 +139,8 @@ const Groups = () => {
           selectGroup={selectGroup}
           handleJoinGroup={handleJoinGroup}
           isUserInGroup={isUserInGroup}
+          handleChangeIcon={handleChangeIcon}
+          setSelectedGroupIcon={setSelectedGroupIcon}
         />
       )}
 
@@ -131,6 +153,7 @@ const Groups = () => {
           selectGroup={selectGroup}
           setSelectedGroupInfo={setSelectedGroupInfo}
           setGroupPosts={setGroupPosts}
+          isUserInGroup={isUserInGroup}
           isForPost={true}
         />
       )}
@@ -159,6 +182,12 @@ const Groups = () => {
           setSelectGroup={setSelectGroup}
           setSelectedGroupInfo={setSelectedGroupInfo}
         />
+      )}
+      {!selectGroup && (
+        <span className="grp-img-container">
+          <Image id="grp-dogs-img" src={dogsPhoto} fluid />
+          <div className="img-overlay"></div>
+        </span>
       )}
     </div>
   );

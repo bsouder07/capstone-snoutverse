@@ -12,7 +12,7 @@ const groupSchema = new Schema(
     description: {
       type: String,
       required: [true, "You must provide a group description."],
-      maxLength: 120,
+      maxLength: 200,
       minLength: 10,
     },
     created: {

@@ -6,6 +6,8 @@ import {
   getGroupPosts,
   createPost,
   joinGroup,
+  handleEditGroupIcon,
+  handleDeleteGroupPost,
 } from "../controllers/groups.controller";
 import { requireAuth } from "../middleware/auth.middleware";
 import {
@@ -19,17 +21,29 @@ router.get("/", requireAuth(), getAllGroups);
 router.get("/:id", requireAuth(), getGroupById);
 router.get("/posts/:id", requireAuth(), getGroupPosts);
 router.put("/join/:id", requireAuth(), joinGroup);
+router.put(
+  "/edit-icon/:id",
+  requireAuth(),
+  handleGroupIconUpload,
+  handleEditGroupIcon
+);
 router.post(
   "/posts/create/:id",
-  handlePostImageUpload,
   requireAuth(),
+  handlePostImageUpload,
   createPost
 );
 router.post(
   "/create",
-  handleGroupIconUpload,
   requireAuth(),
+  handleGroupIconUpload,
   createGroup
+);
+
+router.delete(
+  "/posts/delete/:postId",
+  requireAuth(),
+  handleDeleteGroupPost
 );
 
 export default router;
