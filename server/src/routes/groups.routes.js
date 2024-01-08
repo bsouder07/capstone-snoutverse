@@ -7,6 +7,7 @@ import {
   createPost,
   joinGroup,
   handleEditGroupIcon,
+  handleDeleteGroupPost,
 } from "../controllers/groups.controller";
 import { requireAuth } from "../middleware/auth.middleware";
 import {
@@ -37,6 +38,12 @@ router.post(
   requireAuth(),
   handleGroupIconUpload,
   createGroup
+);
+
+router.delete(
+  "/posts/delete/:postId",
+  requireAuth(),
+  handleDeleteGroupPost
 );
 
 export default router;

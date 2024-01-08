@@ -1,4 +1,5 @@
 import { Group, User, Post } from "../models";
+import fs from "fs/promises";
 
 export async function createGroup(req, res) {
   const { name, description } = req.body;
@@ -238,6 +239,53 @@ export async function handleEditGroupIcon(req, res) {
     return res.status(200).json(group);
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ error: "Something went wrong." });
+  }
+}
+
+export async function handleDeleteGroupPost(req, res) {
+  const { postId } = req.params;
+  const { _id: userId } = req.user;
+
+  try {
+    // Find the post and populate the 'author' field
+    const post = await Post.findById(postId).populate("author");
+
+    if (!post) {
+      return res.status(404).json({ error: "Post not found." });
+    }
+
+    if (post.author._id.toString() !== userId.toString()) {
+      return res.status(401).json({
+        error: "Only the post creator can delete their own posts.",
+      });
+    }
+
+    // Delete the image if there is one associated with the group post from the server
+    if (post.image) {
+      const imagePath = `./public${post.image}`;
+
+      try {
+        await fs.unlink(imagePath);
+        console.log(`Post associated with ${imagePath} was deleted.`);
+      } catch (err) {
+        console.error(err);
+        return res
+          .status(500)
+          .json({
+            error:
+              "There was a problem while deleting the image, please try again later.",
+          });
+      }
+    }
+
+    await post.deleteOne();
+
+    return res
+      .status(200)
+      .json({ message: "Post deleted successfully." });
+  } catch (error) {
+    console.error(error);
     return res.status(500).json({ error: "Something went wrong." });
   }
 }
