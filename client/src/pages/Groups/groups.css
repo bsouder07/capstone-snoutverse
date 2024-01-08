@@ -1,6 +1,6 @@
 /* GroupCard.jsx */
 .date-grp-created {
-  color: rgb(211, 123, 8);
+  color: rgb(109, 119, 119);
   font-size: 12px;
   font-style: italic;
 }
@@ -32,7 +32,15 @@
   margin-bottom: 2%;
 }
 
+#group-name {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  font-family: sans-serif;
+}
+
 #group-icon {
+  display: block;
   width: 100px;
   height: 100px;
   margin-left: 8rem;
@@ -40,6 +48,15 @@
 
 #isJoined {
   margin-left: 10rem;
+}
+
+#member-count-btn {
+  pointer-events: none;
+}
+
+.grp-icon-container {
+  position: relative;
+  display: inline-block;
 }
 
 /* pulse join group button is user is NOT a member of it.*/
@@ -55,6 +72,7 @@
 
 .pulse-btn {
   animation: pulse 1.5s infinite;
+  margin-left: 10rem;
 }
 
 /* end of GroupCard */
@@ -100,6 +118,23 @@ img.card-img-top {
   max-width: 100%;
   max-height: 100%;
 }
+
+#grp-post-card-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.grp-authorImg-created {
+  display: flex;
+  gap: 5px;
+  font-weight: bold;
+}
+
+#grp-created-badge {
+  background-color: #71a0d0;
+  font-weight: 300;
+  margin-top: 2px;
+}
 /* end of GroupPage */
 
 /* Groups.jsx */
@@ -123,6 +158,8 @@ img.card-img-top {
   width: auto;
   font-weight: 300;
   margin: 40% auto 0 auto;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .my-groups {
@@ -148,18 +185,78 @@ h3.create-grp-heading {
   font-size: 20px;
   font-weight: bold;
 }
+
+#grp-dogs-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.grp-img-container {
+  position: relative;
+  overflow: hidden;
+  width: 300px;
+  margin-top: 103%;
+}
+.img-overlay {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  bottom: 5px;
+  width: 100%;
+  height: 100%;
+  background: url("../../../public/default-profileImage.png");
+  background-size: cover;
+  opacity: 0.2;
+}
 /* end of Groups.jsx */
 
 /* GroupForm.jsx */
+#grp-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  margin: 10% 1px 10% 1px;
+  padding: 2%;
+  border: 1px solid #71a0d0;
+  border-radius: 5px;
+  background-color: #d6e5f3;
+}
+
 #grp-post-textarea {
   width: 100%;
-  height: 100%;
+  height: 100px;
   max-width: 100%;
   resize: none;
+  background-color: rgba(246, 243, 239, 0.699);
   margin: 0 auto 0 auto;
   font-size: 16px;
   font-weight: 300;
   font-family: sans-serif;
+}
+
+#grp-form-label {
+  font-family: sans-serif;
+  margin-left: 5rem;
+  font-size: 18px;
+  font-weight: lighter;
+}
+
+small.text-muted {
+  font-family: sans-serif;
+
+  font-size: 12px;
+  font-weight: lighter;
+}
+.group-upload-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 50%;
+  margin-bottom: 2%;
 }
 /* end of GroupForm.jsx */
 
@@ -180,7 +277,7 @@ h3.create-grp-heading {
 /* end of GroupSelect.jsx */
 
 /* mixed */
-#group-name,
+
 #popover-title,
 .group-list {
   text-align: center;
@@ -196,10 +293,36 @@ h3.create-grp-heading {
   .card-img-top {
     max-height: 200px;
   }
-  #grp-post-textarea {
-    max-width: 80%;
-  }
+
   .group-container {
     margin: 20% auto 10% auto;
+  }
+
+  #grp-form {
+    width: 100%;
+  }
+
+  .group-upload-container {
+    flex-direction: column;
+    align-items: stretch;
+    width: auto;
+  }
+  small.text-muted {
+    margin-left: 20px;
+  }
+
+  #grp-form-label {
+    font-weight: 600;
+    font-size: 14px;
+    margin-left: 47px;
+    text-align: center;
+  }
+
+  .grp-form-container {
+    width: 550px;
+    max-width: 90%;
+  }
+  .grp-img-container {
+    margin-top: 122%;
   }
 }

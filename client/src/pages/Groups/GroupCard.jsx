@@ -48,6 +48,13 @@ const GroupCard = ({
           >
             Save
           </Button>
+          <Button
+            id="popover-edit-btn"
+            variant="outline-success"
+            onClick={() => setShowPopover(false)}
+          >
+            Cancel
+          </Button>
         </Form>
       </Popover.Body>
     </Popover>
@@ -65,6 +72,8 @@ const GroupCard = ({
             overlay={popover}
             target={() => document.getElementById("group-icon")}
             placement="right"
+            trigger="click"
+            onHide={() => setShowPopover(false)}
             delay={{ show: 700, hide: 0 }}
             show={showPopover && isUserGroupOwner}
           >
@@ -72,6 +81,7 @@ const GroupCard = ({
               id="group-icon"
               variant="top"
               src={selectGroup.groupIcon}
+              onClick={() => setShowPopover(true)}
             />
           </OverlayTrigger>
         </div>
@@ -84,7 +94,12 @@ const GroupCard = ({
           {selectGroup.createdBy.username}
         </Card.Text>
         <Card.Text>
-          <Button variant="light">
+          <Button
+            id="member-count-btn"
+            as="span"
+            variant="light"
+            disabled={true}
+          >
             Members{" "}
             <Badge bg="info">{selectGroup.members.length}</Badge>
           </Button>

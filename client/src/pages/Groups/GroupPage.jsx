@@ -64,15 +64,18 @@ const GroupPage = () => {
         )}
 
         {filterPostsByGrpId.map((post) => (
-          <Card className="mb-3" key={post._id}>
+          <Card id="group-post-card" className="mb-3" key={post._id}>
             <Card.Body>
               <Card.Text>{post.text}</Card.Text>
               {post.image && (
                 <Card.Img variant="top" src={post.image} />
               )}
 
-              <Card.Footer className="text-muted">
-                <span className="mr-2">
+              <Card.Footer
+                className="text-muted"
+                id="grp-post-card-container"
+              >
+                <span className="grp-authorImg-created">
                   {post.author.username}
                   <Image
                     roundedCircle
@@ -81,7 +84,7 @@ const GroupPage = () => {
                     src={post.author.profileImage}
                   />
                 </span>
-                <Badge variant="info">
+                <Badge bg="secondary" id="grp-created-badge">
                   {new Date(post.created).toLocaleDateString()}
                 </Badge>
               </Card.Footer>

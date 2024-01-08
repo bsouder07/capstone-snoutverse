@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, Button, Stack, Alert } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import UploadFile from "../../../components/UploadFile";
 import api from "../../../utils/api.utils";
@@ -29,7 +29,9 @@ const GroupForm = ({
   const [formData, setFormData] = useState(
     isForPost ? initialPostFormState : initialFormState
   );
+  const [isTouched, setIsTouched] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
 
@@ -39,6 +41,10 @@ const GroupForm = ({
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    setIsTouched(true);
+    setError(null);
+
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
@@ -64,6 +70,8 @@ const GroupForm = ({
     e.preventDefault();
 
     const formPayload = new FormData();
+
+    setIsTouched(false);
 
     if (isForPost) {
       formPayload.append("text", formData.text);
@@ -100,6 +108,9 @@ const GroupForm = ({
       }
     } catch (error) {
       console.log(error);
+      setError(
+        error?.response?.data?.error || "Something went wrong."
+      );
     }
   };
   if (isForPost && !isUserInGroup()) {
@@ -110,26 +121,28 @@ const GroupForm = ({
     );
   }
   return (
-    <div>
-      {/* {!isForPost && isUserInGroup() && } */}
-      <Form onSubmit={handleFormSubmit}>
-        <Form.Group controlId="formBasicName">
-          <Form.Label>
+    <div id="grp-form-container">
+      <Form id="grp-form" onSubmit={handleFormSubmit}>
+        <Form.Group>
+          <Form.Label id={isForPost ? "grp-form-label" : ""}>
             {!isForPost
               ? "Group Name"
               : `Create a post in ${selectGroup?.name}`}
           </Form.Label>
           <Form.Control
+            id={isForPost ? "grp-post-textarea" : null}
             type="text"
             placeholder={
-              !isForPost ? "Enter Group Name" : "Share your thoughts"
+              !isForPost
+                ? "Enter Group Name"
+                : "Share your thoughts..."
             }
             as={!isForPost ? "input" : "textarea"}
             name={!isForPost ? "name" : "text"}
             isInvalid={
               !isForPost
-                ? formData.name.length < 3
-                : txtNotCountingSpaces.length < 30
+                ? isTouched && formData.name.length < 3
+                : isTouched && txtNotCountingSpaces.length < 30
             }
             isValid={
               !isForPost
@@ -159,10 +172,11 @@ const GroupForm = ({
               >
                 {" "}
                 Character Count:{" "}
-                {formData.text?.replace(/ /g, "").length}/{35}
+                {formData.text?.replace(/ /g, "").length}/{30}
               </Form.Text>
             </div>
           )}
+          {error && <Alert variant="danger">{error}</Alert>}
         </Form.Group>
 
         {/* If this component is being used to create a new group post, then don't render the input for description 👇🏻 */}
@@ -174,7 +188,9 @@ const GroupForm = ({
               placeholder="Enter Group Description"
               name="description"
               isInvalid={
-                !isForPost && formData.description.length < 10
+                !isForPost &&
+                isTouched &&
+                formData.description.length < 10
               }
               isValid={
                 !isForPost && formData.description.length >= 10
@@ -192,19 +208,19 @@ const GroupForm = ({
             </Form.Control.Feedback>
           </Form.Group>
         )}
-        <Stack direction="horizontal" gap={3}>
-          <Form.Group controlId="formBasicGroupIcon">
-            <Form.Label>
-              {!isForPost ? "Group Icon" : "Post photo"}
-            </Form.Label>
+        {/* End of description for creating a group. */}
+
+        <div className="group-upload-container">
+          <Form.Group controlId="file">
+            <Form.Label>{!isForPost ? "Group Icon" : ""}</Form.Label>
             <UploadFile onFileChange={handleFileChange} />
-            (Optional right now.)
+            <Form.Text>(Photo is optional)</Form.Text>
           </Form.Group>
 
           <Button variant="primary" type="submit" disabled={loading}>
             {loading ? "...Creating" : "Submit"}
           </Button>
-        </Stack>
+        </div>
       </Form>
     </div>
   );

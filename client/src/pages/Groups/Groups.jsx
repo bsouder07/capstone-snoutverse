@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import "./groups.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Image } from "react-bootstrap";
 import GroupForm from "./Form/GroupForm";
 import api from "../../utils/api.utils";
 import GroupCard from "./GroupCard";
 import { useAuth } from "../../hooks";
 import { Outlet } from "react-router-dom";
 import GroupSelect from "./GroupSelect";
+import dogsPhoto from "../../../public/dogs.png";
 
 const Groups = () => {
   const [allGroups, setAllGroups] = useState([]);
@@ -181,6 +182,12 @@ const Groups = () => {
           setSelectGroup={setSelectGroup}
           setSelectedGroupInfo={setSelectedGroupInfo}
         />
+      )}
+      {!selectGroup && (
+        <span className="grp-img-container">
+          <Image id="grp-dogs-img" src={dogsPhoto} fluid />
+          <div className="img-overlay"></div>
+        </span>
       )}
     </div>
   );
