@@ -106,4 +106,25 @@ router.delete("/:postId", requireAuth(), async (req, res) => {
   }
 });
 
+router.post("/like/:postId", requireAuth(), async (req, res) => {
+  const { postId } = req.params;
+  const { user } = req;
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    if (post.likes.includes(user._id)) {
+      await post.updateOne({ $pull: { likes: user._id } });
+    } else {
+      await post.updateOne({ $push: { likes: user._id } });
+    }
+    const updatedPost = await Post.findById(postId);
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 export default router;

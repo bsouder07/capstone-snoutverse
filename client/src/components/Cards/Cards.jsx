@@ -15,21 +15,18 @@ import api from "../../utils/api.utils";
 import EditPost from "../EditPost/EditPost";
 import { useAuth } from "../../hooks";
 
-
-
-
-function Cards({ post,setPosts }) {
+function Cards({ post, setPosts }) {
   console.log(post);
 
   const [isDeleted, toggleIsDeleted] = useToggle();
   const [isEdit, setisEditing] = useState(false);
-
+  const likes = post.likes || [];
   const { user, isAuthenticated } = useAuth();
+  const isLikedByCurrentUser = likes.includes(user.uid);
+  const [likedState, setLiked] = useState(isLikedByCurrentUser);
+  const [likesState, setLikes] = useState(likes.length);
 
-  
-
-
-//Edit Posts section
+  //Edit Posts section
   const editFunction = () => {
     setisEditing(true);
   };
@@ -49,10 +46,13 @@ function Cards({ post,setPosts }) {
     try {
       await api.put(`/posts/${post._id}`, { text: postText });
 
-      setPosts(previousPosts => previousPosts.map(posts => posts._id === post._id ? {...posts, text: postText} : posts))
+      setPosts((previousPosts) =>
+        previousPosts.map((posts) =>
+          posts._id === post._id ? { ...posts, text: postText } : posts
+        )
+      );
 
-      setisEditing(false)
-
+      setisEditing(false);
     } catch (error) {
       console.error(error.message);
     }
@@ -80,7 +80,9 @@ function Cards({ post,setPosts }) {
     try {
       await api.delete(`/posts/${post._id}`);
 
-      setPosts(previousPosts=> previousPosts.filter(p => p._id !== post._id))
+      setPosts((previousPosts) =>
+        previousPosts.filter((p) => p._id !== post._id)
+      );
 
       toggleIsDeleted();
     } catch (error) {
@@ -89,6 +91,20 @@ function Cards({ post,setPosts }) {
   };
   if (isDeleted) return <></>;
 
+  // Liked post section
+
+  const handleToggleLike = async () => {
+    try {
+      const response = await api.post(`/posts/like/${post._id}`);
+      if (response.status === 200) {
+        setLiked(response.data.likes.includes(user.uid));
+        setLikes(response.data.likes.length);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
   return (
     <Card className="card_class" key={post._id}>
       <Card.Body>
@@ -107,21 +123,35 @@ function Cards({ post,setPosts }) {
         <Card.Text>
           {new Date(post.created).toLocaleDateString()} -{" "}
           {timeSince(post.created)} ago{" "}
-          {post.author._id === user._id &&(
-          <Button id="editBtn" type="button" className="btn btn-outline-success" onClick={editFunction}>
-            Edit
-          </Button>
+          {post.author._id === user._id && (
+            <Button
+              id="editBtn"
+              type="button"
+              className="btn btn-outline-success"
+              onClick={editFunction}
+            >
+              Edit
+            </Button>
           )}
-          {post.author._id === user._id &&(
-          <Button id="deleteBtn"
-            type="button"
-            className="btn btn-outline-danger"
-            onClick={deletePost}
-          >
-            Delete
-          </Button>
+          {post.author._id === user._id && (
+            <Button
+              id="deleteBtn"
+              type="button"
+              className="btn btn-outline-danger"
+              onClick={deletePost}
+            >
+              Delete
+            </Button>  
           )}
-          
+            <Button
+            id="likedBtn"
+        type="button"
+        className={`btn ${likedState ? 'btn-success' : 'btn-outline-success'}`}
+        onClick={handleToggleLike}
+      >
+        {likedState ? 'Liked' : 'Like'} {likesState}
+      </Button>
+
         </Card.Text>
       </Card.Body>
     </Card>
@@ -130,15 +160,3 @@ function Cards({ post,setPosts }) {
 
 export default Cards;
 
-
-//To ensure users cannot delete posts made by other users?
-
-// {post.author._id === post.id(I am not sure what this should be) &&(
-//   <Button
-//     type="button"
-//     className="btn btn-outline-danger"
-//     onClick={deletePost}
-//   >
-//     Delete
-//   </Button>
-//   )}

@@ -35,12 +35,25 @@
   margin-left: 1rem ;
   
 }
+
+#likedBtn{
+  background-color: white;
+  margin-left: 2rem;
+
+
+}
 #editBtn:hover {
   background-color: green;
 }
 
 #deleteBtn:hover {
   background-color: red;
+}
+
+
+#likedBtn:hover{
+
+background-color: lightblue;
 }
 
 
