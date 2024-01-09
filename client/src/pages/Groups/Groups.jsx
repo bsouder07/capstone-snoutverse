@@ -9,7 +9,7 @@ import { useAuth } from "../../hooks";
 import { Outlet } from "react-router-dom";
 import GroupSelect from "./GroupSelect";
 import { BottomNav } from "../../components";
-import dogsPhoto from "../../../public/dogs.png";
+import dogsPhoto from "../../assets/dogs.png";
 
 const Groups = () => {
   const [allGroups, setAllGroups] = useState([]);
@@ -121,82 +121,83 @@ const Groups = () => {
 
   return (
     <>
-    <div
-      className={
-        !selectGroup ? "group-container-empty" : "group-container"
-      }
-    >
-      <h1 className="groups_title">{!selectGroup && 
-        "Build your SnoutVerse Community"
-      
-      }</h1>
-      <h1 className={!selectGroup ? "my-groups-empty" : "my-groups"}>
-        {!selectGroup
-          ? "Select a group from the dropdown"
-          : "My Groups"}
-      </h1>
-      <GroupSelect
-        allGroups={allGroups}
-        selectGroup={selectGroup}
-        handleSelectChange={handleSelectChange}
-      />
-      {selectGroup && (
-        <GroupCard
+      <div
+        className={
+          !selectGroup ? "group-container-empty" : "group-container"
+        }
+      >
+        <h1 className="groups_title">
+          {!selectGroup && "Build your SnoutVerse Community"}
+        </h1>
+        <h1
+          className={!selectGroup ? "my-groups-empty" : "my-groups"}
+        >
+          {!selectGroup
+            ? "Select a group from the dropdown"
+            : "My Groups"}
+        </h1>
+        <GroupSelect
+          allGroups={allGroups}
           selectGroup={selectGroup}
-          handleJoinGroup={handleJoinGroup}
-          isUserInGroup={isUserInGroup}
-          handleChangeIcon={handleChangeIcon}
-          setSelectedGroupIcon={setSelectedGroupIcon}
+          handleSelectChange={handleSelectChange}
         />
-      )}
+        {selectGroup && (
+          <GroupCard
+            selectGroup={selectGroup}
+            handleJoinGroup={handleJoinGroup}
+            isUserInGroup={isUserInGroup}
+            handleChangeIcon={handleChangeIcon}
+            setSelectedGroupIcon={setSelectedGroupIcon}
+          />
+        )}
 
-      {/* Reusing the GroupForm component for creating a post. */}
-      {selectGroup && (
-        <GroupForm
-          setAllGroups={setAllGroups}
-          setShowCreateGroup={setShowCreateGroup}
-          setSelectGroup={setSelectGroup}
-          selectGroup={selectGroup}
-          setSelectedGroupInfo={setSelectedGroupInfo}
-          setGroupPosts={setGroupPosts}
-          isUserInGroup={isUserInGroup}
-          isForPost={true}
-        />
-      )}
-      {/* outlet to child GroupPage component route. */}
-      <Outlet context={[groupPosts, setGroupPosts]} />
-      {/*https://reactrouter.com/en/6.21.1/hooks/use-outlet-context */}
+        {/* Reusing the GroupForm component for creating a post. */}
+        {selectGroup && (
+          <GroupForm
+            setAllGroups={setAllGroups}
+            setShowCreateGroup={setShowCreateGroup}
+            setSelectGroup={setSelectGroup}
+            selectGroup={selectGroup}
+            setSelectedGroupInfo={setSelectedGroupInfo}
+            setGroupPosts={setGroupPosts}
+            isUserInGroup={isUserInGroup}
+            isForPost={true}
+          />
+        )}
+        {/* outlet to child GroupPage component route. */}
+        <Outlet context={[groupPosts, setGroupPosts]} />
+        {/*https://reactrouter.com/en/6.21.1/hooks/use-outlet-context */}
 
-      {!selectGroup && (
-        <>
-          <h3 className="create-grp-heading">
-            Don't see one you that interests you?{" "}
-          </h3>
-          <Button
-            variant="outline-success"
-            onClick={() => setShowCreateGroup(!showCreateGroup)}
-          >
-            Create a Group
-          </Button>
-        </>
-      )}
+        {!selectGroup && (
+          <>
+            <h3 className="create-grp-heading">
+              Don't see one you that interests you?{" "}
+            </h3>
+            <Button
+              variant="outline-success"
+              onClick={() => setShowCreateGroup(!showCreateGroup)}
+            >
+              Create a Group
+            </Button>
+          </>
+        )}
 
-      {showCreateGroup && (
-        <GroupForm
-          setAllGroups={setAllGroups}
-          setShowCreateGroup={setShowCreateGroup}
-          setSelectGroup={setSelectGroup}
-          setSelectedGroupInfo={setSelectedGroupInfo}
-        />
-      )}
-      {!selectGroup && (
-        <span className="grp-img-container">
-          <Image id="grp-dogs-img" src={dogsPhoto} fluid />
-          <div className="img-overlay"></div>
-        </span>
-      )}
-    </div>
-    <BottomNav />
+        {showCreateGroup && (
+          <GroupForm
+            setAllGroups={setAllGroups}
+            setShowCreateGroup={setShowCreateGroup}
+            setSelectGroup={setSelectGroup}
+            setSelectedGroupInfo={setSelectedGroupInfo}
+          />
+        )}
+        {!selectGroup && (
+          <span className="grp-img-container">
+            <Image id="grp-dogs-img" src={dogsPhoto} fluid />
+            <div className="img-overlay"></div>
+          </span>
+        )}
+      </div>
+      <BottomNav />
     </>
   );
 };

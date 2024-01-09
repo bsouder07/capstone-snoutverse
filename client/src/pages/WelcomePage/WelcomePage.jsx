@@ -1,7 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks";
 import "./WelcomePage.css";
 
 function WelcomePage() {
+  const { user, isAuthenticated } = useAuth();
+
+  const navigate = useNavigate();
+
+  if (user && isAuthenticated) {
+    navigate("/dashboard");
+  }
   return (
     <div id="welcomeWrapper">
       <h1 className="absCentering" id="frontTitle">
@@ -21,7 +29,7 @@ function WelcomePage() {
       </span>
       <img
         id="heroImg"
-        src="/pexels-lumn-406014.jpg"
+        src="/src/assets/pexels-lumn-406014.jpg"
         alt="A brown dog on a white background with its face close to the camera"
       />
     </div>

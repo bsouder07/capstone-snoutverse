@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import "./Dashboard.css";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import api from "../../utils/api.utils";
 import Cards from "../../components/Cards/Cards";
@@ -25,30 +25,32 @@ const initialState = {
 };
 
 function Dashboard() {
-
   const [data, setData] = useState(initialState);
   const [postLoading, setPostLoading] = useState(true);
   const [postError, setPostError] = useState(false);
   const [posts, setPosts] = useState([]);
   const [validated, setValidated] = useState(false);
   //State for the uploaded image
-  const [selectedFile, setSelectedFile] = useState(null)
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  const {user} = useAuth()
+  const { user } = useAuth();
 
   const handleInputChange = (event) => {
-    setData({...data, postText:event.target.value});
+    setData({ ...data, postText: event.target.value });
   };
   //This will work alongside the UploadFile component
   const handleFileChange = (file) => {
-    setSelectedFile(file)
-  }
+    setSelectedFile(file);
+  };
 
   const handlePostSubmit = async (event) => {
     const form = event.currentTarget;
     event.preventDefault();
     if (form.checkValidity() === false) {
-      setData({ ...data, errorMessage: "Please make sure there is text." });
+      setData({
+        ...data,
+        errorMessage: "Please make sure there is text.",
+      });
       return;
     }
 
@@ -65,13 +67,13 @@ function Dashboard() {
     }
 
     const headers = {
-      headers: {"Content-Type": "multipart/form-data"}
-    }
+      headers: { "Content-Type": "multipart/form-data" },
+    };
 
-    
     try {
-      const res = await api.post("/posts", formPayload, {headers: { "Content-Type": "multipart/form-data" },
-    });
+      const res = await api.post("/posts", formPayload, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       setData(initialState);
       setPosts((prevPosts) => [
         {
@@ -81,14 +83,14 @@ function Dashboard() {
             username: user.username,
             profileImage: user.profileImage,
             _id: user._id,
-           
           },
         },
-        ...prevPosts,res.data?.image
+        ...prevPosts,
+        res.data?.image,
       ]);
-      setData(initialState)
+      setData(initialState);
       setValidated(false);
-      setSelectedFile(null)
+      setSelectedFile(null);
     } catch (error) {
       setData({
         ...data,
@@ -97,14 +99,14 @@ function Dashboard() {
       });
     }
   };
- 
-
 
   //We can use this section if this page will also display posts created.
   useEffect(() => {
     const getPosts = async () => {
       try {
-        const allPosts = await axios.get("http://localhost:3001/api/posts");
+        const allPosts = await axios.get(
+          "http://localhost:3001/api/posts"
+        );
         console.log(allPosts);
         setPosts(allPosts.data);
         setPostLoading(false);
@@ -134,7 +136,10 @@ function Dashboard() {
             value={data.postText}
             required
           ></Form.Control>
-           <UploadFile className="upload" onFileChange={handleFileChange}/>
+          <UploadFile
+            className="upload"
+            onFileChange={handleFileChange}
+          />
           <Button
             className="float-right mt-4"
             type="submit"
@@ -142,9 +147,11 @@ function Dashboard() {
           >
             Submit
           </Button>
-         
         </Form>
-        {posts && posts.map((post) => <Cards key={post._id} post={post} setPosts={setPosts} />)}
+        {posts &&
+          posts.map((post) => (
+            <Cards key={post?._id} post={post} setPosts={setPosts} />
+          ))}
       </Container>
       <BottomNav />
     </>
@@ -170,5 +177,3 @@ posts
 posts.map((post) => <Card key={post._id} post={posts})
 
 */
-
-

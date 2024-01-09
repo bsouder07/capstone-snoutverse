@@ -20,7 +20,7 @@ function Cards({ post, setPosts }) {
 
   const [isDeleted, toggleIsDeleted] = useToggle();
   const [isEdit, setisEditing] = useState(false);
-  const likes = post.likes || [];
+  const likes = post?.likes || [];
   const { user, isAuthenticated } = useAuth();
   const isLikedByCurrentUser = likes.includes(user._id);
   const [likedState, setLiked] = useState(isLikedByCurrentUser);
@@ -48,7 +48,9 @@ function Cards({ post, setPosts }) {
 
       setPosts((previousPosts) =>
         previousPosts.map((posts) =>
-          posts._id === post._id ? { ...posts, text: postText } : posts
+          posts._id === post._id
+            ? { ...posts, text: postText }
+            : posts
         )
       );
 
@@ -81,7 +83,7 @@ function Cards({ post, setPosts }) {
       await api.delete(`/posts/${post._id}`);
 
       setPosts((previousPosts) =>
-        previousPosts.filter((p) => p._id !== post._id)
+        previousPosts.filter((p) => p?._id !== post?._id)
       );
 
       toggleIsDeleted();
@@ -114,27 +116,31 @@ function Cards({ post, setPosts }) {
   console.log(isLikedByCurrentUser);
 
   return (
-    <Card className="card_class" key={post._id}>
+    <Card className="card_class" key={post?._id}>
       <Card.Body>
         <Figure className="d-flex align-items-center">
           <Figure.Image
             width={70}
             height={70}
             className="rounded-circle"
-            src={post.author?.profileImage}
+            src={post?.author?.profileImage}
           />
-          <figcaption>{post.author.username}</figcaption>
+          <figcaption>{post?.author.username}</figcaption>
         </Figure>
 
-        <Card.Text className="mt-3">{post.text}</Card.Text>
-        {post.image && (
-          <Card.Img id="Post_image" src={post.image} alt="Post Image" />
+        <Card.Text className="mt-3">{post?.text}</Card.Text>
+        {post?.image && (
+          <Card.Img
+            id="Post_image"
+            src={post.image}
+            alt="Post Image"
+          />
         )}
 
         <Card.Text>
-          {new Date(post.created).toLocaleDateString()} -{" "}
-          {timeSince(post.created)} ago{" "}
-          {post.author._id === user._id && (
+          {new Date(post?.created).toLocaleDateString()} -{" "}
+          {timeSince(post?.created)} ago{" "}
+          {post?.author._id === user._id && (
             <Button
               id="editBtn"
               type="button"
@@ -144,7 +150,7 @@ function Cards({ post, setPosts }) {
               Edit
             </Button>
           )}
-          {post.author._id === user._id && (
+          {post?.author._id === user._id && (
             <Button
               id="deleteBtn"
               type="button"
