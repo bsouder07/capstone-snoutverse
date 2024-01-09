@@ -14,6 +14,7 @@ const UploadFile = ({ onFileChange }) => {
     if (!file) {
       setPreviewUrl(null);
     }
+    previewUrl.revokeObjectURL(file);
   };
 
   return (

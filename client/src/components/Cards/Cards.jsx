@@ -125,7 +125,7 @@ function Cards({ post, setPosts }) {
             className="rounded-circle"
             src={post?.author?.profileImage}
           />
-          <figcaption>{post?.author.username}</figcaption>
+          <figcaption>{post?.author?.username}</figcaption>
         </Figure>
 
         <Card.Text className="mt-3">{post?.text}</Card.Text>
@@ -140,7 +140,7 @@ function Cards({ post, setPosts }) {
         <Card.Text>
           {new Date(post?.created).toLocaleDateString()} -{" "}
           {timeSince(post?.created)} ago{" "}
-          {post?.author._id === user._id && (
+          {post?.author?._id === user?._id && (
             <Button
               id="editBtn"
               type="button"
@@ -150,7 +150,7 @@ function Cards({ post, setPosts }) {
               Edit
             </Button>
           )}
-          {post?.author._id === user._id && (
+          {post?.author?._id === user?._id && (
             <Button
               id="deleteBtn"
               type="button"
