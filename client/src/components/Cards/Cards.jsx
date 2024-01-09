@@ -163,7 +163,7 @@ function Cards({ post, setPosts }) {
           <Button
             id="likedBtn"
             type="button"
-            variant={likedState ? "success" : "outline-success"}
+            variant={likedState ? "info" : "outline-info"}
             onClick={handleToggleLike}
           >
             {likedState ? "Liked" : "Like"}
