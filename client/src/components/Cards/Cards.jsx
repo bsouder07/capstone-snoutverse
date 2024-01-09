@@ -15,21 +15,18 @@ import api from "../../utils/api.utils";
 import EditPost from "../EditPost/EditPost";
 import { useAuth } from "../../hooks";
 
-
-
-
-function Cards({ post,setPosts }) {
+function Cards({ post, setPosts }) {
   console.log(post);
 
   const [isDeleted, toggleIsDeleted] = useToggle();
   const [isEdit, setisEditing] = useState(false);
-
+  const likes = post.likes || [];
   const { user, isAuthenticated } = useAuth();
+  const isLikedByCurrentUser = likes.includes(user._id);
+  const [likedState, setLiked] = useState(isLikedByCurrentUser);
+  const [likesState, setLikes] = useState(likes.length);
 
-  
-
-
-//Edit Posts section
+  //Edit Posts section
   const editFunction = () => {
     setisEditing(true);
   };
@@ -49,10 +46,13 @@ function Cards({ post,setPosts }) {
     try {
       await api.put(`/posts/${post._id}`, { text: postText });
 
-      setPosts(previousPosts => previousPosts.map(posts => posts._id === post._id ? {...posts, text: postText} : posts))
+      setPosts((previousPosts) =>
+        previousPosts.map((posts) =>
+          posts._id === post._id ? { ...posts, text: postText } : posts
+        )
+      );
 
-      setisEditing(false)
-
+      setisEditing(false);
     } catch (error) {
       console.error(error.message);
     }
@@ -80,7 +80,9 @@ function Cards({ post,setPosts }) {
     try {
       await api.delete(`/posts/${post._id}`);
 
-      setPosts(previousPosts=> previousPosts.filter(p => p._id !== post._id))
+      setPosts((previousPosts) =>
+        previousPosts.filter((p) => p._id !== post._id)
+      );
 
       toggleIsDeleted();
     } catch (error) {
@@ -89,39 +91,77 @@ function Cards({ post,setPosts }) {
   };
   if (isDeleted) return <></>;
 
+  // Liked post section
+
+  const handleToggleLike = async () => {
+    try {
+      const response = await api.post(`/posts/like/${post._id}`);
+      if (response.status === 200) {
+        let doesUserLikePost = response.data.likes.includes(user._id);
+        console.log(doesUserLikePost);
+        if (doesUserLikePost) {
+          setLiked(true);
+          setLikes(likesState + 1);
+        } else {
+          setLiked(false);
+          setLikes(likesState - 1);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  console.log(isLikedByCurrentUser);
+
   return (
     <Card className="card_class" key={post._id}>
-    <Card.Body>
-      <Figure className="d-flex align-items-center">
-        <Figure.Image
-          width={70}
-          height={70}
-          className="rounded-circle"
-          src={post.author.profileImage}
-        />
-        <figcaption>{post.author.username}</figcaption>
-      </Figure>
+      <Card.Body>
+        <Figure className="d-flex align-items-center">
+          <Figure.Image
+            width={70}
+            height={70}
+            className="rounded-circle"
+            src={post.author?.profileImage}
+          />
+          <figcaption>{post.author.username}</figcaption>
+        </Figure>
 
         <Card.Text className="mt-3">{post.text}</Card.Text>
+        {post.image && (
+          <Card.Img id="Post_image" src={post.image} alt="Post Image" />
+        )}
 
         <Card.Text>
           {new Date(post.created).toLocaleDateString()} -{" "}
           {timeSince(post.created)} ago{" "}
-          {post.author._id === user._id &&(
-          <Button id="editBtn" type="button" className="btn btn-outline-success" onClick={editFunction}>
-            Edit
-          </Button>
+          {post.author._id === user._id && (
+            <Button
+              id="editBtn"
+              type="button"
+              className="btn btn-outline-success"
+              onClick={editFunction}
+            >
+              Edit
+            </Button>
           )}
-          {post.author._id === user._id &&(
-          <Button id="deleteBtn"
+          {post.author._id === user._id && (
+            <Button
+              id="deleteBtn"
+              type="button"
+              className="btn btn-outline-danger"
+              onClick={deletePost}
+            >
+              Delete
+            </Button>
+          )}
+          <Button
+            id="likedBtn"
             type="button"
-            className="btn btn-outline-danger"
-            onClick={deletePost}
+            variant={likedState ? "success" : "outline-success"}
+            onClick={handleToggleLike}
           >
-            Delete
+            {likedState ? "Liked" : "Like"}
           </Button>
-          )}
-          
         </Card.Text>
       </Card.Body>
     </Card>
@@ -129,16 +169,3 @@ function Cards({ post,setPosts }) {
 }
 
 export default Cards;
-
-
-//To ensure users cannot delete posts made by other users?
-
-// {post.author._id === post.id(I am not sure what this should be) &&(
-//   <Button
-//     type="button"
-//     className="btn btn-outline-danger"
-//     onClick={deletePost}
-//   >
-//     Delete
-//   </Button>
-//   )}

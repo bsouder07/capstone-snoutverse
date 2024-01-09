@@ -35,12 +35,29 @@
   margin-left: 1rem ;
   
 }
+
+#likedBtn{
+  margin-left: 1rem;
+
+
+}
 #editBtn:hover {
   background-color: green;
 }
 
 #deleteBtn:hover {
   background-color: red;
+}
+#Post_image{
+  max-width: 30rem;
+  max-height: 30rem;
+ margin-left: 10rem
+}
+
+
+#likedBtn:hover{
+
+background-color: lightblue;
 }
 
 

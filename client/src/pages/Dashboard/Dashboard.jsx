@@ -16,6 +16,7 @@ import api from "../../utils/api.utils";
 import Cards from "../../components/Cards/Cards";
 import { useAuth } from "../../hooks";
 import { BottomNav } from "../../components";
+import UploadFile from "../../components/UploadFile";
 
 const initialState = {
   postText: "",
@@ -30,12 +31,18 @@ function Dashboard() {
   const [postError, setPostError] = useState(false);
   const [posts, setPosts] = useState([]);
   const [validated, setValidated] = useState(false);
+  //State for the uploaded image
+  const [selectedFile, setSelectedFile] = useState(null)
 
   const {user} = useAuth()
 
   const handleInputChange = (event) => {
     setData({...data, postText:event.target.value});
   };
+  //This will work alongside the UploadFile component
+  const handleFileChange = (file) => {
+    setSelectedFile(file)
+  }
 
   const handlePostSubmit = async (event) => {
     const form = event.currentTarget;
@@ -50,39 +57,48 @@ function Dashboard() {
       isSubmitting: true,
       errorMessage: null,
     });
-    api
-      .post("/posts", {
-        text: data.postText,
-      })
 
-      .then(
-        (res) => {
-          setData(initialState);
-          setPosts((posts) => [
-            {
-              ...res.data,
+    const formPayload = new FormData();
+    formPayload.append("text", data.postText);
+    if (selectedFile) {
+      formPayload.append("file", selectedFile);
+    }
 
-              author: {
-                email: user.email,
-                username:user.username,
-                profileImage:user.profileImage,
-                _id:user._id
-               
-              },
-            },
-            ...posts,
-          ]);
-          setValidated(false);
+    const headers = {
+      headers: {"Content-Type": "multipart/form-data"}
+    }
+
+    
+    try {
+      const res = await api.post("/posts", formPayload, {headers: { "Content-Type": "multipart/form-data" },
+    });
+      setData(initialState);
+      setPosts((prevPosts) => [
+        {
+          ...res.data,
+          author: {
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            _id: user._id,
+           
+          },
         },
-        (error) => {
-          setData({
-            ...data,
-            isSubmitting: false,
-            errorMessage: error.message,
-          });
-        }
-      );
+        ...prevPosts,res.data?.image
+      ]);
+      setData(initialState)
+      setValidated(false);
+      setSelectedFile(null)
+    } catch (error) {
+      setData({
+        ...data,
+        isSubmitting: false,
+        errorMessage: error.message,
+      });
+    }
   };
+ 
+
 
   //We can use this section if this page will also display posts created.
   useEffect(() => {
@@ -118,7 +134,7 @@ function Dashboard() {
             value={data.postText}
             required
           ></Form.Control>
-
+           <UploadFile className="upload" onFileChange={handleFileChange}/>
           <Button
             className="float-right mt-4"
             type="submit"
@@ -126,6 +142,7 @@ function Dashboard() {
           >
             Submit
           </Button>
+         
         </Form>
         {posts && posts.map((post) => <Cards key={post._id} post={post} setPosts={setPosts} />)}
       </Container>
@@ -153,3 +170,5 @@ posts
 posts.map((post) => <Card key={post._id} post={posts})
 
 */
+
+
