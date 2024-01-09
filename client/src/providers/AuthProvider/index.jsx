@@ -1,4 +1,4 @@
-import authContext from "./AuthContext";
+import authContext from "./authContext";
 import useAuthProvider from "./useAuthProvider";
 
 const AuthProvider = ({ children }) => {
