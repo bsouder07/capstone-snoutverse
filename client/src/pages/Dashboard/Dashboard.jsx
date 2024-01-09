@@ -15,6 +15,7 @@ import axios from "axios";
 import api from "../../utils/api.utils";
 import Cards from "../../components/Cards/Cards";
 import { useAuth } from "../../hooks";
+import { BottomNav } from "../../components";
 import UploadFile from "../../components/UploadFile";
 
 const initialState = {
@@ -145,6 +146,7 @@ function Dashboard() {
         </Form>
         {posts && posts.map((post) => <Cards key={post._id} post={post} setPosts={setPosts} />)}
       </Container>
+      <BottomNav />
     </>
   );
 }

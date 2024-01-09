@@ -10,7 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import EmployeeDashboardPage from "./pages/EmployeeDashboardPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import Profile from "./pages/Profile/Profile";
-
+import WelcomePage from "./pages/WelcomePage/WelcomePage"
 import Dashboard from "./pages/Dashboard/Dashboard";
 import GroupPage from "./pages/Groups/GroupPage";
 
@@ -18,8 +18,8 @@ function App() {
   return (
     <>
       <Header />
-      <BottomNav />
       <Routes>
+        <Route path="/" element={<WelcomePage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
 

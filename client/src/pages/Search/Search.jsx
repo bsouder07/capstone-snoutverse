@@ -16,6 +16,7 @@ import { User } from "../../../../server/src/models";
 import { Link } from "react-router-dom";
 import { timeSince } from "../../utils/timeSince";
 import Cards from "../../components/Cards/Cards";
+import { BottomNav } from "../../components";
 
 function Search() {
   const [data, setData] = useState("");
@@ -91,6 +92,7 @@ function Search() {
           </div>
         </div>
       </Container>
+      <BottomNav />
     </>
   );
 }

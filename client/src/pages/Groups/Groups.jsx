@@ -8,6 +8,7 @@ import GroupCard from "./GroupCard";
 import { useAuth } from "../../hooks";
 import { Outlet } from "react-router-dom";
 import GroupSelect from "./GroupSelect";
+import { BottomNav } from "../../components";
 import dogsPhoto from "../../../public/dogs.png";
 
 const Groups = () => {
@@ -119,6 +120,7 @@ const Groups = () => {
   //sizing to account for empty areas.
 
   return (
+    <>
     <div
       className={
         !selectGroup ? "group-container-empty" : "group-container"
@@ -194,6 +196,8 @@ const Groups = () => {
         </span>
       )}
     </div>
+    <BottomNav />
+    </>
   );
 };
 
