@@ -8,6 +8,7 @@ import GroupCard from "./GroupCard";
 import { useAuth } from "../../hooks";
 import { Outlet } from "react-router-dom";
 import GroupSelect from "./GroupSelect";
+import { BottomNav } from "../../components";
 
 const Groups = () => {
   const [allGroups, setAllGroups] = useState([]);
@@ -99,6 +100,7 @@ const Groups = () => {
   //sizing to account for empty areas.
 
   return (
+    <>
     <div
       className={
         !selectGroup ? "group-container-empty" : "group-container"
@@ -161,6 +163,8 @@ const Groups = () => {
         />
       )}
     </div>
+    <BottomNav />
+    </>
   );
 };
 

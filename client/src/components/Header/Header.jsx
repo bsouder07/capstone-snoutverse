@@ -23,7 +23,7 @@ function Header() {
         <Navbar.Collapse id="top-nav" className="justify-content-end">
           <Nav>
             {isLoggedIn ? (
-              <Button onClick={handleSignOut}>Log Out</Button>
+              <Button variant="dark" onClick={handleSignOut}>Log Out</Button>
             ) : (
               <>
                 <Button
