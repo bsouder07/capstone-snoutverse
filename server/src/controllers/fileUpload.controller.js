@@ -1,7 +1,7 @@
 import path from "path";
 
-const DEFAULT_IMG_PATH = "/src/assets/default-profileImage.png";
-const DEFAULT_GRP_IMG_PATH = "/src/assets/default-grp-img.png";
+const DEFAULT_IMG_PATH = "/assets/default-profileImage.png";
+const DEFAULT_GRP_IMG_PATH = "/assets/default-grp-img.png";
 
 const UPLOAD_DIR = path.join(__dirname, "../../public/images/");
 

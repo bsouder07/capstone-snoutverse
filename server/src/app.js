@@ -28,10 +28,13 @@ app.use(fileupload({ limits: { fileSize: 5 * 1024 * 1024 } }));
 
 app.use(keys.api_url, router);
 
-app.use(keys.api_url, router);
-
 if (keys.node_env === "production") {
   app.use(express.static(path.join(__dirname, "../../client/dist")));
+  app.use(
+    "/assets",
+    express.static(path.join(__dirname, "../../client/dist/assets"))
+  );
+
   app.all("*", (req, res, next) => {
     res.sendFile(
       path.resolve(__dirname, "../../client/dist/index.html")
