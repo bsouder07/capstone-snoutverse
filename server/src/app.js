@@ -31,7 +31,7 @@ app.use(keys.api_url, router);
 app.use(keys.api_url, router);
 
 if (keys.node_env === "production") {
-  app.use(express.static(path.join(__dirname, "../client/dist")));
+  app.use(express.static(path.join(__dirname, "./client/dist")));
   app.all("*", (req, res, next) => {
     res.sendFile(
       path.resolve(__dirname, "../client/dist/index.html")
