@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks";
+import landingPic from "../../assets/pexels-lumn-406014.jpg";
 import "./WelcomePage.css";
 
 function WelcomePage() {
@@ -29,7 +30,7 @@ function WelcomePage() {
       </span>
       <img
         id="heroImg"
-        src="/src/assets/pexels-lumn-406014.jpg"
+        src={landingPic}
         alt="A brown dog on a white background with its face close to the camera"
       />
     </div>
