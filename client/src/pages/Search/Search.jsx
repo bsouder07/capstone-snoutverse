@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { timeSince } from "../../utils/timeSince";
 import Cards from "../../components/Cards/Cards";
 import { BottomNav } from "../../components";
+import api from "../../utils/api.utils";
 
 function Search() {
   const [data, setData] = useState("");
@@ -46,7 +47,7 @@ function Search() {
   useEffect(() => {
     const getPosts = async () => {
       try {
-        const allPosts = await axios.get("http://localhost:3001/api/posts");
+        const allPosts = await api.get("/posts");
         console.log(allPosts);
         setPostResults(allPosts.data);
         setPostLoading(false);
@@ -81,12 +82,12 @@ function Search() {
               {postResults &&
                 postResults
                   .filter((post) =>
-                    post.text.toLowerCase().includes(data.toLowerCase())
+                    post.text
+                      .toLowerCase()
+                      .includes(data.toLowerCase())
                   )
                   .map((post) => {
-                    return (
-                      <Cards key={post._id} post={post} />
-                    );
+                    return <Cards key={post._id} post={post} />;
                   })}
             </div>
           </div>
@@ -99,10 +100,7 @@ function Search() {
 
 export default Search;
 
-
-
-
-    /*  For Groups if need be
+/*  For Groups if need be
 
  <h3 className="groups-results">
               {" "}
@@ -114,4 +112,3 @@ export default Search;
 
 
 */
-

@@ -1,18 +1,9 @@
 import React from "react";
-import {
-  Container,
-  Form,
-  Button,
-  Card,
-  Figure,
-  ListGroup,
-  OverlayTrigger,
-  Tooltip,
-} from "react-bootstrap";
+import { Container, Form, Button } from "react-bootstrap";
 import "./Dashboard.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import api from "../../utils/api.utils";
+
 import Cards from "../../components/Cards/Cards";
 import { useAuth } from "../../hooks";
 import { BottomNav } from "../../components";
@@ -104,9 +95,7 @@ function Dashboard() {
   useEffect(() => {
     const getPosts = async () => {
       try {
-        const allPosts = await axios.get(
-          "http://localhost:3001/api/posts"
-        );
+        const allPosts = await api.get("/posts");
         console.log(allPosts);
         setPosts(allPosts.data);
         setPostLoading(false);
