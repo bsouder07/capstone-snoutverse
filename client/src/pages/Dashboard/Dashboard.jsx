@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import "./Dashboard.css";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../utils/api.utils";
 
 import Cards from "../../components/Cards/Cards";
 import { useAuth } from "../../hooks";
