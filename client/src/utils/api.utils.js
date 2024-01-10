@@ -1,11 +1,9 @@
 import axios from "axios";
-import { NODE_ENV } from "../configs/constants";
+import { NODE_ENV, API_URL } from "../configs/constants";
 
 const api = axios.create({
   baseURL:
-    NODE_ENV === "production"
-      ? VITE_API_URL
-      : "http://localhost:3001/api",
+    NODE_ENV === "production" ? API_URL : "http://localhost:3001/api",
 });
 
 export const setAccessToken = (token) => {
