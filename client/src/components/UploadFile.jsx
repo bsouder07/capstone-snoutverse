@@ -1,26 +1,32 @@
 import React, { useState } from "react";
 
-const UploadFile = ({ onFileChange }) => {
+const UploadFile = ({ onFileChange, showPrevImg, fileRef }) => {
   const [previewUrl, setPreviewUrl] = useState(null);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      const reader = new FileReader();
       onFileChange(file);
-      setPreviewUrl(URL.createObjectURL(file));
-    }
+      setPreviewUrl(file);
 
-    //clear preview if no file.
-    if (!file) {
-      setPreviewUrl(null);
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result);
+      };
+
+      reader.readAsDataURL(file);
     }
-    previewUrl.revokeObjectURL(file);
   };
-
   return (
     <div>
-      <input type="file" onChange={handleFileChange} />
-      {previewUrl && (
+      <input
+        type="file"
+        name="file"
+        accept="image/*,.pdf"
+        onChange={handleFileChange}
+        ref={fileRef}
+      />
+      {showPrevImg && previewUrl && (
         <img
           className="preview-image"
           src={previewUrl}

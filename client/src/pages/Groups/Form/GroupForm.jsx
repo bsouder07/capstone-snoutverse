@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import UploadFile from "../../../components/UploadFile";
@@ -31,13 +31,20 @@ const GroupForm = ({
   );
   const [isTouched, setIsTouched] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showPrevImg, setShowPrevImg] = useState(true);
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
 
+  const formRef = useRef(null);
+
   //Using a simple regex expression to replace spaces with nothing so the
   //character count doesn't count spaces. - Tim Q.
-  const txtNotCountingSpaces = formData?.text?.replace(/ /g, "");
+  const textWithoutSpace = formData?.text?.replace(/ /g, "");
+
+  const nameLength = formData.name?.length;
+  const descriptionLength = formData.description?.length;
+  const textLength = textWithoutSpace.length;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,9 +58,13 @@ const GroupForm = ({
     }));
   };
 
-  const handleFileChange = (file) => {
+  const handleClearFileInput = () => {
+    setShowPrevImg(false);
+    formRef.current.value = ""; //clear the file input.
+  };
+
+  const handleSetFile = (file) => {
     if (isForPost) {
-      console.log(file);
       setFormData((prevState) => ({
         ...prevState,
         image: file,
@@ -104,6 +115,7 @@ const GroupForm = ({
       } else {
         setGroupPosts((prevState) => [...prevState, data]);
         setFormData(initialPostFormState);
+        handleClearFileInput();
         navigate(`/groups/${selectGroup._id}`);
       }
     } catch (error) {
@@ -120,6 +132,7 @@ const GroupForm = ({
       </Alert>
     );
   }
+
   return (
     <div id="grp-form-container">
       <Form id="grp-form" onSubmit={handleFormSubmit}>
@@ -141,14 +154,10 @@ const GroupForm = ({
             name={!isForPost ? "name" : "text"}
             isInvalid={
               !isForPost
-                ? isTouched && formData.name.length < 3
-                : isTouched && txtNotCountingSpaces.length < 30
+                ? isTouched && nameLength < 3
+                : isTouched && textLength < 30
             }
-            isValid={
-              !isForPost
-                ? formData.name.length >= 3
-                : txtNotCountingSpaces.length >= 30
-            }
+            isValid={!isForPost ? nameLength >= 3 : textLength >= 30}
             value={!isForPost ? formData.name : formData.text}
             onChange={handleChange}
           />
@@ -165,9 +174,7 @@ const GroupForm = ({
             <div className="d-flex">
               <Form.Text
                 className={
-                  txtNotCountingSpaces.length > 30
-                    ? "text-danger"
-                    : "text-muted"
+                  textLength > 30 ? "text-danger" : "text-muted"
                 }
               >
                 {" "}
@@ -188,13 +195,9 @@ const GroupForm = ({
               placeholder="Enter Group Description"
               name="description"
               isInvalid={
-                !isForPost &&
-                isTouched &&
-                formData.description.length < 10
+                !isForPost && isTouched && descriptionLength < 10
               }
-              isValid={
-                !isForPost && formData.description.length >= 10
-              }
+              isValid={!isForPost && descriptionLength >= 10}
               value={
                 !isForPost ? formData.description : formData.text
               }
@@ -213,7 +216,11 @@ const GroupForm = ({
         <div className="group-upload-container">
           <Form.Group controlId="file">
             <Form.Label>{!isForPost ? "Group Icon" : ""}</Form.Label>
-            <UploadFile onFileChange={handleFileChange} />
+            <UploadFile
+              onFileChange={(file) => handleSetFile(file)}
+              showPrevImg={showPrevImg}
+              fileRef={formRef}
+            />
             <Form.Text>(Photo is optional)</Form.Text>
           </Form.Group>
 
